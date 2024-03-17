@@ -1,22 +1,27 @@
-name: Deploy
+name: Deploy to My Server
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  Deploy:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    environment: production
+
     steps:
-      - uses: actions/checkout@v4 
-      - name: Build & Deploy
-        env:
-            PASS_WORD: ${{secrets.SSH_PASSWORD}}
-        run: |
-            sshpass -p $PASS_WORD ssh -o StrictHostKeyChecking=no dotien@tiennt-server.duckdns.org -p 22 '
-              cd skill.v3.api &&
-              git pull &&
-              docker-compose down &&
-              docker rmi swd-backend_backend:latest &&
-              docker-compose up --build -d
-              '
+
+    - name: SSH and Run Command
+      uses: appleboy/ssh-action@master
+      with:
+        key: ${{ secrets.SSH_PASSWORD }}
+        script: |
+          # Replace `your_command` with the actual command you want to run on the server.
+          ssh dotien@tiennt-server.duckdns.org "
+          cd skill.v3.api && 
+          git pull && 
+          docker-compose down && 
+          docker rmi swd-backend_backend:latest && 
+          docker-compose up --build -d
+          "
