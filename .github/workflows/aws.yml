@@ -15,8 +15,9 @@ jobs:
             USER_NAME: ${{secrets.SSH_USERNAME}}
             PORT: ${{secrets.SSH_PORT}}
             PASS_WORD: ${{secrets.SSH_PASSWORD}}
+            PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
         run: |
-            sshpass -p $PASS_WORD ssh -o StrictHostKeyChecking=no -i private_key $USER_NAME@$IP -p $PORT '
+            sshpass -p $PASS_WORD ssh -o StrictHostKeyChecking=no -i PRIVATE_KEY $USER_NAME@$IP -p $PORT '
               cd skill.v3.api &&
               git pull &&
               docker-compose down &&
