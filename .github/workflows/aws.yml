@@ -8,7 +8,7 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: matheusvanzan/sshpass-action@v2
+      - uses: actions/checkout@v4 
       - name: Build & Deploy
         env:
             PASS_WORD: ${{secrets.SSH_PASSWORD}}
