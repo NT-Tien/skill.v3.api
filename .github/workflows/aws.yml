@@ -13,7 +13,7 @@ jobs:
         env:
             PASS_WORD: ${{secrets.SSH_PASSWORD}}
         run: |
-            sshpass -p $PASS_WORD ssh -o StrictHostKeyChecking=no -i private_key dotien@tiennt-server.duckdns.org -p 22 '
+            sshpass -p $PASS_WORD ssh -o StrictHostKeyChecking=no dotien@tiennt-server.duckdns.org -p 22 '
               cd skill.v3.api &&
               git pull &&
               docker-compose down &&
