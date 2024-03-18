@@ -1,7 +1,7 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Inject } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { LogsService } from 'src/logs/logs.service';
+import { LogsService } from 'src/logs-mongo/logs.service';
 
  class ApiResponse<T> {
   constructor(
