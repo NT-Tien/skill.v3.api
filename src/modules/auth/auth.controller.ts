@@ -6,6 +6,7 @@ import { RegisterDataDto } from "./interfaces/dto/register-data.dto";
 import { LoginLocalDataDto } from "./interfaces/dto/login-data";
 import { AdminGuard } from "./guards/admin.guard";
 import { AdminUpdateAccountDataDto } from "./interfaces/dto/admin-update-data.dto";
+import { PhoneDto } from "./interfaces/dto/phone.dto";
 
 @ApiTags('auth')
 @Controller('auth')
@@ -69,6 +70,26 @@ export class AuthController {
     @ApiBearerAuth()
     async deleteAccount(@Param('id') id: string) {
         return await this.authService.softDeleteAccount(id);
+    }
+
+    // ! features for user
+
+    @Post('user/change-password')
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(UserGuard)
+    @ApiBearerAuth()
+    async changePassword(@Headers('authorization') token: string, @Body() data: { newPassword: string }) {
+        var decoded = await this.authService.decodeToken(token);
+        return await this.authService.changePassword(decoded.id, data.newPassword);
+    }
+
+    @Post('user/update-phone')
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(UserGuard)
+    @ApiBearerAuth()
+    async changePhoneNumber(@Headers('authorization') token: string, @Body() data: { phone: PhoneDto }) {
+        var decoded = await this.authService.decodeToken(token);
+        return await this.authService.changePhoneNumber(decoded.id, data.phone);
     }
 
 }
