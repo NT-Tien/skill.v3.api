@@ -10,6 +10,8 @@ import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { AdminUpdateAccountDataDto } from "./interfaces/dto/admin-update-data.dto";
 import { PhoneDto } from "./interfaces/dto/phone.dto";
+import { PasswordDto } from "./interfaces/dto/password-update-data.dto";
+import { UsernameDto } from "./interfaces/dto/username-update-data.dto";
 
 
 @Injectable()
@@ -88,19 +90,19 @@ export class AuthService implements AuthServiceInterface {
         return this.repositoryAccount.update(id, { deletedAt: new Date() });
     }
     // ! features for user
-    async changePassword(id: string, newPassword: string): Promise<any> {
+    async changePassword(id: string, newPassword: PasswordDto): Promise<any> {
         var salt = bcrypt.genSaltSync(10);
-        newPassword = bcrypt.hashSync(newPassword, salt);
-        return this.repositoryAccount.update(id, { password: newPassword });
+        newPassword.value = bcrypt.hashSync(newPassword.value, salt);
+        return this.repositoryAccount.update(id, { password: newPassword.value });
     }
     async changePhoneNumber(id: string, newPhone: PhoneDto): Promise<any> {
         return this.repositoryAccount.update(id, {
             phone: newPhone.value
         });
     }
-    async changeUsername(id: string, newUsername: string): Promise<any> {
+    async changeUsername(id: string, newUsername: UsernameDto): Promise<any> {
         return this.repositoryAccount.update(id, {
-            username: newUsername
+            username: newUsername.value
         });
     }
 

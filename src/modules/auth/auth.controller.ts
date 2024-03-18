@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Headers, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, Res, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
+import { Body, Controller, Delete, Headers, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiHeader, ApiHeaders, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "./auth.service";
 import { UserGuard } from "./guards/user.guard";
 import { RegisterDataDto } from "./interfaces/dto/register-data.dto";
@@ -7,6 +7,9 @@ import { LoginLocalDataDto } from "./interfaces/dto/login-data";
 import { AdminGuard } from "./guards/admin.guard";
 import { AdminUpdateAccountDataDto } from "./interfaces/dto/admin-update-data.dto";
 import { PhoneDto } from "./interfaces/dto/phone.dto";
+import { PasswordDto } from "./interfaces/dto/password-update-data.dto";
+import { FastifyRequest } from "fastify";
+import { UsernameDto } from "./interfaces/dto/username-update-data.dto";
 
 @ApiTags('auth')
 @Controller('auth')
@@ -78,18 +81,27 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @UseGuards(UserGuard)
     @ApiBearerAuth()
-    async changePassword(@Headers('authorization') token: string, @Body() data: { newPassword: string }) {
-        var decoded = await this.authService.decodeToken(token);
-        return await this.authService.changePassword(decoded.id, data.newPassword);
+    async changePassword(@Req() req: FastifyRequest['raw'], @Body() password: PasswordDto) {
+        var decoded = await this.authService.decodeToken(req.headers.authorization?.split(' ')[1]);
+        return await this.authService.changePassword(decoded.id, password);
     }
 
     @Post('user/update-phone')
     @HttpCode(HttpStatus.OK)
     @UseGuards(UserGuard)
     @ApiBearerAuth()
-    async changePhoneNumber(@Headers('authorization') token: string, @Body() data: { phone: PhoneDto }) {
-        var decoded = await this.authService.decodeToken(token);
-        return await this.authService.changePhoneNumber(decoded.id, data.phone);
+    async changePhoneNumber(@Req() req: FastifyRequest['raw'], @Body() phone: PhoneDto) {
+        var decoded = await this.authService.decodeToken(req.headers.authorization?.split(' ')[1]);
+        return await this.authService.changePhoneNumber(decoded.id, phone);
+    }
+
+    @Post('user/update-username')
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(UserGuard)
+    @ApiBearerAuth()
+    async changeUsername(@Req() req: FastifyRequest['raw'], @Body() username: UsernameDto) {
+        var decoded = await this.authService.decodeToken(req.headers.authorization?.split(' ')[1]);
+        return await this.authService.changeUsername(decoded.id, username);
     }
 
 }

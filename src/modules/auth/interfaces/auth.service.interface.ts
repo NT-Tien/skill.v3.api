@@ -1,7 +1,9 @@
 import { AdminUpdateAccountDataDto } from "./dto/admin-update-data.dto";
+import { PasswordDto } from "./dto/password-update-data.dto";
 import { PayloadTokenDto } from "./dto/payload-token.dto";
 import { PhoneDto } from "./dto/phone.dto";
 import { RegisterDataDto } from "./dto/register-data.dto";
+import { UsernameDto } from "./dto/username-update-data.dto";
 
 export interface AuthServiceInterface {
     // Hash password
@@ -29,9 +31,9 @@ export interface AuthServiceInterface {
     softDeleteAccount(id: string): Promise<any>;
     // ! features for user
     // Change password
-    changePassword(id: string, newPassword: string): Promise<any>;
+    changePassword(id: string, newPassword: PasswordDto): Promise<any>;
     // Change phone number
     changePhoneNumber(id: string, newPhone: PhoneDto): Promise<any>;
     // Change username
-    changeUsername(id: string, newUsername: string): Promise<any>;
+    changeUsername(id: string, newUsername: UsernameDto): Promise<any>;
 }
