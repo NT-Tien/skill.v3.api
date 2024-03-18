@@ -4,7 +4,6 @@ import { Column, Entity, Unique } from "typeorm";
 export enum Role {
     admin = 'admin',
     staff = 'staff',
-    dstaff = 'dstaff',
     user = 'user',
 }
 
@@ -50,6 +49,7 @@ export class AccountEntity extends BaseEntity {
         name: "Role",
         type: "enum",
         enum: Role,
+        default: Role.user,
         nullable: false,
     })
     role: Role;

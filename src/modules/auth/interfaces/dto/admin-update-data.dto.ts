@@ -1,8 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
+import { Role } from "src/entities/account.entity";
 
 
-export class RegisterDataDto {
+export class AdminUpdateAccountDataDto {
 
     @ApiProperty()
     @IsString()
@@ -12,14 +13,13 @@ export class RegisterDataDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    @IsEmail()
-    email: string;
+    @IsPhoneNumber()
+    phone: string;
 
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    @IsPhoneNumber()
-    phone: string;
+    role: Role;
 
     @ApiProperty()
     @IsString()

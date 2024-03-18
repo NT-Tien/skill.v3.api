@@ -10,4 +10,5 @@ export class PayloadTokenDto {
     email: string;
     @IsNotEmpty()
     role: string;
+    exp?: any
 }

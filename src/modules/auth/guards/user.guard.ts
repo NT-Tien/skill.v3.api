@@ -3,7 +3,7 @@ import { Injectable, CanActivate, ExecutionContext, Inject } from '@nestjs/commo
 import { AuthService } from '../auth.service';
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class UserGuard implements CanActivate {
   constructor(
     @Inject('AUTH_SERVICE_TIENNT') private readonly AuthService: AuthService,
   ) { }
@@ -12,7 +12,7 @@ export class AdminGuard implements CanActivate {
     try {
       const request = context.switchToHttp().getRequest();
       const accessToken = (request?.headers?.authorization as string)?.split(' ')[1];
-      var response = await this.AuthService.verifyAdminToken(accessToken)
+      var response = await this.AuthService.verifyToken(accessToken)
       if (response) {
         return true;
       } else return false;

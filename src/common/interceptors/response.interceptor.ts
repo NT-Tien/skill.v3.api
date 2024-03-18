@@ -1,6 +1,7 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Inject } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { LogsService } from 'src/logs/logs.service';
 
  class ApiResponse<T> {
   constructor(
@@ -12,6 +13,11 @@ import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, ApiResponse<T>> {
+
+  constructor(
+    @Inject('LOGS_SERVICE_TIENNT') private readonly logsService: LogsService,
+  ) { }
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<ApiResponse<T>> {
     return next.handle().pipe(
       map(data => {
@@ -19,14 +25,8 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, ApiResponse<T>
         return new ApiResponse<T>(data, 'Success', responseStatusCode);
       }),
       catchError(error => {
-        // re-throwws the error 500
-        if (error.status >= 500) {
-          return throwError(() => {
-            return new ApiResponse<T>(null, error.message, 500);
-          }); // Re-throw the exception
-        } else {
-          return throwError(() => error);
-        }
+        this.logsService.createLog('error', error);
+        return throwError(() => error);
       }),
     );
   }

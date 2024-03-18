@@ -1,11 +1,10 @@
-// auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountEntity } from 'src/entities/account.entity';
-// import { AuthController } from './auth.controller';
+import { AuthController } from './auth.controller';
 
 dotenv.config();
 
@@ -18,7 +17,7 @@ dotenv.config();
         TypeOrmModule.forFeature([AccountEntity]),
     ],
     controllers: [
-        // AuthController,
+        AuthController,
     ],
     providers: [
         {
