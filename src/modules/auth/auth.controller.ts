@@ -38,15 +38,19 @@ export class AuthController {
         return await this.authService.loginWithFirebaseToken(token);
     }
 
+    @ApiBearerAuth()
     @Post('verify-token')
     @HttpCode(HttpStatus.OK)
-    async verifyToken(@Headers('authorization') token: string) {
+    async verifyToken(@Req() req: FastifyRequest['raw']) {
+        var token = req.headers.authorization?.split(' ')[1];
         return await this.authService.verifyToken(token);
     }
 
+    @ApiBearerAuth()
     @Post('verify-admin-token')
     @HttpCode(HttpStatus.OK)
-    async verifyAdminToken(@Headers('authorization') token: string) {
+    async verifyAdminToken(@Req() req: FastifyRequest['raw']) {
+        var token = req.headers.authorization?.split(' ')[1];
         return await this.authService.verifyAdminToken(token);
     }
 
