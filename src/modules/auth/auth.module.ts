@@ -3,8 +3,8 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AccountEntity } from 'src/entities/account.entity';
 import { AuthController } from './auth.controller';
+import { AccountEntity } from './entities/account.entity';
 
 dotenv.config();
 

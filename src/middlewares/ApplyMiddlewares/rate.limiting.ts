@@ -5,7 +5,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 @Injectable()
 export class RateLimiting implements NestMiddleware {
     client = redisClientLocal;
-    amount = 140;
+    amount = 300;
 
     use(req: FastifyRequest['raw'], res: FastifyReply['raw'], next: () => void) {
         const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress) as string;

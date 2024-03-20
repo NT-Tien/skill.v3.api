@@ -2,7 +2,6 @@ import { BaseEntity } from "src/common/base/entity.base";
 import { Column, Entity, Unique } from "typeorm";
 
 export enum Role {
-    root = 'root',
     admin = 'admin',
     staff = 'staff',
     user = 'user',

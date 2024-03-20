@@ -9,6 +9,8 @@ import { MONGO_CONFIG, MONGO_HOST } from './config/mongo.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LogsModule } from './logs-mongo/logs.module';
 import { FileModule } from './modules/file-manager/file.module';
+import { ProjectModule } from './modules/project/project.module';
+import { TicketModule } from './modules/ticket/ticket.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { FileModule } from './modules/file-manager/file.module';
     MyMiddlewareModule,
     AuthModule,
     FileModule,
+    ProjectModule,
+    TicketModule,
   ], 
   providers: [
     {

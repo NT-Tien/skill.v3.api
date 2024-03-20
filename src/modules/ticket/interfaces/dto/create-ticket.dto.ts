@@ -1,12 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";
 
-export class CreateProjectDto {
+export class CreateTicketDto {
 
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    projectName: string
+    ticketName: string
 
     @ApiProperty()
     @IsString()

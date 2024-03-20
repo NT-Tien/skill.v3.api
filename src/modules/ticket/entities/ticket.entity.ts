@@ -1,15 +1,14 @@
 import { BaseEntity } from "src/common/base/entity.base";
-import { Column, Entity, ManyToOne } from "typeorm";
-import { ProjectEntity } from "./project.entity";
+import { Column, Entity, Unique } from "typeorm";
 
-
+@Unique(["ticketName"])
 @Entity({
     name: "TICKET",
 })
 export class TicketEntity extends BaseEntity {
 
     @Column({
-        name: "projectName",
+        name: "ticketName",
         type: "varchar",
         length: 100,
         nullable: false,
@@ -24,20 +23,31 @@ export class TicketEntity extends BaseEntity {
     description: string;
 
     @Column({
-        name: " quantity",
+        name: "price",
+        type: "float",
+        nullable: false,
+    })
+    price: number; 
+
+    @Column({
+        name: "quantity",
         type: "int",
         nullable: false,
     })
     quantity: number;
 
     @Column({
-        name: "price",
-        type: "float",
+        name: "startDate",
+        type: "timestamp",
         nullable: false,
     })
-    price: number;
+    startDate: Date;
 
-    @ManyToOne(() => ProjectEntity, (pro) => pro.id)
-    project: ProjectEntity
+    @Column({
+        name: "endDate",
+        type: "timestamp",
+        nullable: false,
+    })
+    endDate: Date;
 
 }

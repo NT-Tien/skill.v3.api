@@ -1,8 +1,7 @@
 import { BaseEntity } from "src/common/base/entity.base";
-import { Column, Entity, ManyToOne } from "typeorm";
-import { AccountEntity } from "./account.entity";
+import { Column, Entity, Unique } from "typeorm";
 
-
+@Unique(["projectName"])
 @Entity({
     name: "PROJECT",
 })
@@ -36,15 +35,5 @@ export class ProjectEntity extends BaseEntity {
         nullable: false,
     })
     endDate: Date;
-
-    @Column({
-        name: "status",
-        type: "boolean",
-        nullable: false,
-    })
-    status: boolean;
-
-    @ManyToOne(() => AccountEntity, (acc) => acc.email)
-    createdBy: AccountEntity
 
 }

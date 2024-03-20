@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
+import { BaseDTO } from "src/common/base/dto.base";
 
-export class CreateProjectDto {
+export class UpdateProjectDto extends BaseDTO {
 
     @ApiProperty()
     @IsString()
