@@ -8,6 +8,7 @@ import { MyMiddlewareModule } from './middlewares/middleware.module';
 import { MONGO_CONFIG, MONGO_HOST } from './config/mongo.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { LogsModule } from './logs-mongo/logs.module';
+import { FileModule } from './modules/file-manager/file.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { LogsModule } from './logs-mongo/logs.module';
     LogsModule,
     MyMiddlewareModule,
     AuthModule,
+    FileModule,
   ], 
   providers: [
     {

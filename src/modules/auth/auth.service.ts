@@ -5,13 +5,14 @@ import { AuthServiceInterface } from "./interfaces/auth.service.interface";
 import { PayloadTokenDto } from "./interfaces/dto/payload-token.dto";
 import { RegisterDataDto } from "./interfaces/dto/register-data.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { AccountEntity } from "src/entities/account.entity";
+import { AccountEntity, Role } from "src/entities/account.entity";
 import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { AdminUpdateAccountDataDto } from "./interfaces/dto/admin-update-data.dto";
 import { PhoneDto } from "./interfaces/dto/phone.dto";
 import { PasswordDto } from "./interfaces/dto/password-update-data.dto";
 import { UsernameDto } from "./interfaces/dto/username-update-data.dto";
+import { CreateAccountDto } from "./interfaces/dto/create-account.dto";
 
 
 @Injectable()
@@ -75,11 +76,20 @@ export class AuthService implements AuthServiceInterface {
         return await this.jwtService.verifyAsync(token);
     }
     // ! features for admin
-    async createAccount(data: RegisterDataDto): Promise<any> {
+    async createAccount(data: CreateAccountDto): Promise<any> {
+        // block admin account to create another admin account
+        if (data.role === Role.admin) {
+            throw new HttpException("Admin account can't create another admin account", HttpStatus.BAD_REQUEST);
+        }
         data.password = await this.hashPassword(data.password);
         return this.repositoryAccount.save(data);
     }
     async updateAccount(id: string, data: AdminUpdateAccountDataDto): Promise<any> {
+        // block admin account to update another admin account
+        var account = await this.repositoryAccount.findOne({ where: { id: id } });
+        if (account.role === "admin" && data.role !== "admin") {
+            throw new HttpException("Admin account can't update another admin account", HttpStatus.BAD_REQUEST);
+        }
         var dataUpdate = {
             ...data,
             password: await this.hashPassword(data.password)
@@ -87,6 +97,11 @@ export class AuthService implements AuthServiceInterface {
         return this.repositoryAccount.update(id, dataUpdate);
     }
     async softDeleteAccount(id: string): Promise<any> {
+        // block admin account to delete another admin account
+        var account = await this.repositoryAccount.findOne({ where: { id: id } });
+        if (account.role === "admin") {
+            throw new HttpException("Admin account can't delete another admin account", HttpStatus.BAD_REQUEST);
+        }
         return this.repositoryAccount.update(id, { deletedAt: new Date() });
     }
     // ! features for user

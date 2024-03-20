@@ -16,7 +16,7 @@ export class LogsService {
 
     async getLogs(page?: number, limit?: number): Promise<Logs[]> {
         if (page && limit) {
-            return this.logsModel.find().skip((page - 1) * limit).limit(limit).exec();
+            return this.logsModel.find().sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).exec();
         } else {
             return this.logsModel.find().exec();
         }

@@ -2,6 +2,7 @@ import { BaseEntity } from "src/common/base/entity.base";
 import { Column, Entity, Unique } from "typeorm";
 
 export enum Role {
+    root = 'root',
     admin = 'admin',
     staff = 'staff',
     user = 'user',
@@ -20,7 +21,7 @@ export class AccountEntity extends BaseEntity {
         nullable: false,
     })
     username: string;
-    
+
     @Column({
         name: "Email",
         type: "varchar",
@@ -53,5 +54,5 @@ export class AccountEntity extends BaseEntity {
         nullable: false,
     })
     role: Role;
-    
+
 }

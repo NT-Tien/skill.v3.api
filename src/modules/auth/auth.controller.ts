@@ -10,6 +10,7 @@ import { PhoneDto } from "./interfaces/dto/phone.dto";
 import { PasswordDto } from "./interfaces/dto/password-update-data.dto";
 import { FastifyRequest } from "fastify";
 import { UsernameDto } from "./interfaces/dto/username-update-data.dto";
+import { CreateAccountDto } from "./interfaces/dto/create-account.dto";
 
 @ApiTags('auth')
 @Controller('auth')
@@ -22,7 +23,7 @@ export class AuthController {
     @Post('register')
     @HttpCode(HttpStatus.CREATED)
     async register(@Body() data: RegisterDataDto) {
-        return await this.authService.register(data);
+        return await this.authService.register(RegisterDataDto.plainToClass(data));
     }
 
     @Post('login')
@@ -55,8 +56,8 @@ export class AuthController {
     @HttpCode(HttpStatus.CREATED)
     @UseGuards(AdminGuard)
     @ApiBearerAuth()
-    async createAccount(@Body() data: RegisterDataDto) {
-        return await this.authService.createAccount(data);
+    async createAccount(@Body() data: CreateAccountDto) {
+        return await this.authService.createAccount(CreateAccountDto.plainToClass(data));
     }
 
     @Put('admin/update-account/:id')

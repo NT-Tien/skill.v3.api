@@ -2,9 +2,10 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
 import { BaseDTO } from "src/common/base/dto.base";
+import { Role } from "src/entities/account.entity";
 
 
-export class RegisterDataDto extends BaseDTO{
+export class CreateAccountDto extends BaseDTO {
 
     @ApiProperty()
     @IsString()
@@ -31,5 +32,11 @@ export class RegisterDataDto extends BaseDTO{
     @IsNotEmpty()
     @Expose()
     password: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    @Expose()
+    role: Role;
 
 }

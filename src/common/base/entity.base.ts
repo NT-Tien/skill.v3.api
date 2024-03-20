@@ -1,5 +1,3 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { plainToClass } from "class-transformer";
 import { BeforeUpdate, Column, PrimaryGeneratedColumn } from "typeorm";
 
 export abstract class BaseEntity {
@@ -28,12 +26,6 @@ export abstract class BaseEntity {
         nullable: true,
     })
     deletedAt: Date;
-
-    // explain: run transform plain to class
-    // validate before update 
-    static plainToClass<T>(this: new (...args: any[]) => T, plain: T): T {
-        return plainToClass(this, plain, { excludeExtraneousValues: true });
-    }
 
     @BeforeUpdate()
     beforeUpdate() {
