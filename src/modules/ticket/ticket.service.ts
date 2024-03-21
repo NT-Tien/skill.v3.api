@@ -1,36 +1,36 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { TicketEntity } from "./entities/ticket.entity";
 import { TicketServiceInterface } from "./interfaces/ticket.interface";
-import { CreateTicketDto } from "./interfaces/dto/create-ticket.dto";
-import { UpdateTicketDto } from "./interfaces/dto/update-ticket.dto";
+import { CreateTicketDto } from "./interfaces/dto/ticket/create-ticket.dto";
+import { UpdateTicketDto } from "./interfaces/dto/ticket/update-ticket.dto";
 
 @Injectable()
 export class TicketService implements TicketServiceInterface {
     constructor(
-        @InjectRepository(TicketEntity) private ticketRepository: Repository<TicketEntity>
+        @InjectRepository(TicketEntity) private ticketRepository: Repository<TicketEntity>,
+        private dataSource: DataSource // for transaction
     ) { }
     createTicket(data: CreateTicketDto): Promise<any> {
-        throw new Error("Method not implemented.");
+        return this.ticketRepository.save(data);
     }
     updateTicket(id: string, data: UpdateTicketDto): Promise<any> {
-        throw new Error("Method not implemented.");
+        return this.ticketRepository.update(id, data);
     }
     deleteTicket(id: string): Promise<any> {
-        throw new Error("Method not implemented.");
+        return this.ticketRepository.delete(id);
     }
     softDeleteTicket(id: string): Promise<any> {
-        throw new Error("Method not implemented.");
+        return this.ticketRepository.update(id, { deletedAt: new Date()});
     }
     unDeleteTicket(id: string): Promise<any> {
-        throw new Error("Method not implemented.");
+        return this.ticketRepository.update(id, { deletedAt: null});
     }
     getTicketById(id: string): Promise<any> {
-        throw new Error("Method not implemented.");
+        return this.ticketRepository.find({ where: { id } });
     }
     getTickets(): Promise<any> {
-        throw new Error("Method not implemented.");
+        return this.ticketRepository.find();
     }
-    
 }

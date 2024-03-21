@@ -12,7 +12,7 @@ export class UserGuard implements CanActivate {
     try {
       const request = context.switchToHttp().getRequest();
       const accessToken = (request?.headers?.authorization as string)?.split(' ')[1];
-      var response = await this.AuthService.verifyToken(accessToken)
+      var response = await this.AuthService.verifyUserToken(accessToken)
       if (response) {
         return true;
       } else return false;

@@ -11,17 +11,22 @@ import { LogsModule } from './logs-mongo/logs.module';
 import { FileModule } from './modules/file-manager/file.module';
 import { ProjectModule } from './modules/project/project.module';
 import { TicketModule } from './modules/ticket/ticket.module';
+import { BullModule } from '@nestjs/bull';
+import { QUEUE_CONFIG } from './config/queue.config';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(TYPE_ORM_CONFIG),
     MongooseModule.forRoot(MONGO_HOST, MONGO_CONFIG),
+    BullModule.forRoot(QUEUE_CONFIG),
     LogsModule,
     MyMiddlewareModule,
     AuthModule,
     FileModule,
     ProjectModule,
     TicketModule,
+    PaymentModule
   ], 
   providers: [
     {

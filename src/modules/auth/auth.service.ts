@@ -63,6 +63,15 @@ export class AuthService implements AuthServiceInterface {
             }
         }
     }
+    async verifyUserToken(token: string): Promise<boolean> {
+        if (!token) throw new HttpException("Token is required", HttpStatus.BAD_REQUEST);
+        const decodedToken = await this.decodeToken(token);
+        if (decodedToken.email && decodedToken.exp < Date.now()) {
+            var account = await this.repositoryAccount.findOne({ where: { email: decodedToken.email } });
+            if (account.email === decodedToken.email && account.role === "user") return true;
+        }
+        return false;
+    }
     async verifyAdminToken(token: string): Promise<boolean> {
         if (!token) throw new HttpException("Token is required", HttpStatus.BAD_REQUEST);
         const decodedToken = await this.decodeToken(token);

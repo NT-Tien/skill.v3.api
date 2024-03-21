@@ -18,6 +18,8 @@ export interface AuthServiceInterface {
     generateToken(payload: PayloadTokenDto): Promise<string>;
     // Verify a token
     verifyToken(token: string): Promise<boolean>;
+    // Verify a token for user
+    verifyUserToken(token: string): Promise<boolean>;
     // Verify a token for admin
     verifyAdminToken(token: string): Promise<boolean>;
     // Get PayloadToken from token

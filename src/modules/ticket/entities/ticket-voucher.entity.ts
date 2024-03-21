@@ -1,33 +1,26 @@
 import { BaseEntity } from "src/common/base/entity.base";
 import { Column, Entity, Unique } from "typeorm";
 
-@Unique(["ticketName"])
+@Unique(["voucherCode"])
 @Entity({
-    name: "TICKET",
+    name: "TICKET_VOUCHER",
 })
-export class TicketEntity extends BaseEntity {
+export class TicketVoucherEntity extends BaseEntity {
 
     @Column({
-        name: "ticketName",
+        name: "voucherCode",
         type: "varchar",
         length: 100,
         nullable: false,
     })
-    ticketName: string;
+    voucherCode: string;
 
     @Column({
-        name: "description",
-        type: "text",
-        nullable: false,
-    })
-    description: string;
-
-    @Column({
-        name: "price",
+        name: "discount",
         type: "float",
         nullable: false,
     })
-    price: number; 
+    discount: number;
 
     @Column({
         name: "quantity",
@@ -50,15 +43,22 @@ export class TicketEntity extends BaseEntity {
     })
     endDate: Date;
 
-    // ! related to ticket-apply project
-
     @Column({
-        name: "project",
+        name: "applyTicketId",
         type: "varchar",
         length: 100,
+        array: true,
         nullable: true,
     })
-    project: string; // only for one project, if it is null, it means it is for all projects
+    applyTicketId: string[]; // if applyTicketId is null, it means that this voucher is applied to all tickets
 
+    @Column({
+        name: "applyEmail",
+        type: "varchar",
+        length: 100,
+        array: true,
+        nullable: true,
+    })
+    applyEmail: string[]; // if applyEmail is null, it means that this voucher is applied to all users
 
 }
