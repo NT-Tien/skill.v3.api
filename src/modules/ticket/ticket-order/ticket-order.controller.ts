@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AdminGuard } from "src/modules/auth/guards/admin.guard";
-import { CreateTicketOrderDto } from "../interfaces/dto/ticket-order/create-ticket-Order.dto";
+import { CreateTicketOrderDto } from "../interfaces/dto/ticket-order/create-ticket-order.dto";
 import { TicketOrderService } from "./ticket-order.service";
 
 @ApiTags('ticket-order')

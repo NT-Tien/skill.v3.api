@@ -8,7 +8,7 @@ export const TYPE_ORM_CONFIG = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    synchronize: true,
+    synchronize: process.env.ENV === 'development',
     // logging: process.env.ENV === 'dev' ? true : false,
     entities: [
         'dist/**/*.entity.js'
