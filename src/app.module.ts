@@ -13,12 +13,14 @@ import { ProjectModule } from './modules/project/project.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { BullModule } from '@nestjs/bull';
 import { QUEUE_CONFIG } from './config/queue.config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(TYPE_ORM_CONFIG),
     MongooseModule.forRoot(MONGO_HOST, MONGO_CONFIG),
     BullModule.forRoot(QUEUE_CONFIG),
+    ScheduleModule.forRoot(),
     LogsModule,
     MyMiddlewareModule,
     AuthModule,

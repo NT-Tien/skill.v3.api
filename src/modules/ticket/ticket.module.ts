@@ -17,6 +17,8 @@ import { TicketOrderItemEntity } from "./entities/ticket-order-item.entity";
 import { TicketOrderCheckinEntity } from "./entities/ticket-order-checkin.entity";
 import { TicketOrderService } from "./ticket-order/ticket-order.service";
 import { PayOSService } from "./ticket-order/payment/payos.service";
+import { WaiterService } from "./ticket-order/payment/waiter.cront";
+import { TicketOrderWaiterEntity } from "./entities/ticket-order-waiter.entity";
 
 @Module({
     imports:[
@@ -26,6 +28,7 @@ import { PayOSService } from "./ticket-order/payment/payos.service";
             TicketOrderEntity,
             TicketOrderItemEntity,
             TicketOrderCheckinEntity,
+            TicketOrderWaiterEntity,
         ]),
         BullModule.registerQueue({name: 'ticket-order-queue'}),
         AuthModule,
@@ -48,6 +51,7 @@ import { PayOSService } from "./ticket-order/payment/payos.service";
             provide: 'PAYOS_SERVICE_TIENNT',
             useClass: PayOSService,
         },
+        WaiterService,
     ],
     controllers: [
         TicketController,

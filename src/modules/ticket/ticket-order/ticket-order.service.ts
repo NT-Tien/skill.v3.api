@@ -9,6 +9,7 @@ import { TicketOrderItemEntity } from "../entities/ticket-order-item.entity";
 import { TicketEntity } from "../entities/ticket.entity";
 import { TicketVoucherEntity } from "../entities/ticket-voucher.entity";
 import { isUUID } from "class-validator";
+import { UpdateTicketOrderDto } from "../interfaces/dto/ticket-order/update-ticket-order.dto";
 
 @Injectable()
 export class TicketOrderService implements TicketOrderServiceInterface {
@@ -17,6 +18,9 @@ export class TicketOrderService implements TicketOrderServiceInterface {
         @Inject('PAYOS_SERVICE_TIENNT') private payOSService: PayOSService,
         private dataSource: DataSource // for transaction
     ) { }
+    updateTicketOrder(id: string, data: UpdateTicketOrderDto): Promise<any> {
+        return this.ticketOrderRepository.update(id, data);
+    }
     getOrdersByUser(): Promise<any> {
         return this.ticketOrderRepository.createQueryBuilder("TICKET_ORDER")
             .leftJoinAndSelect("TICKET_ORDER.items", "TICKET_ORDER_ITEM")
@@ -78,6 +82,7 @@ export class TicketOrderService implements TicketOrderServiceInterface {
             }
             // create link to payment
             var payload = {
+                orderId: order.id,
                 orderCode: Date.now(),
                 amount: order.total,
                 description: order.phone,
