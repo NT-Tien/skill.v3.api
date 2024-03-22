@@ -46,7 +46,6 @@ export class TicketVoucherEntity extends BaseEntity {
     @Column({
         name: "applyTicketId",
         type: "varchar",
-        length: 100,
         array: true,
         nullable: true,
     })
@@ -55,7 +54,6 @@ export class TicketVoucherEntity extends BaseEntity {
     @Column({
         name: "applyEmail",
         type: "varchar",
-        length: 100,
         array: true,
         nullable: true,
     })

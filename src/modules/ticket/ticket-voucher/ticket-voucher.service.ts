@@ -19,8 +19,8 @@ export class TicketVoucherService implements TicketVoucherServiceInterface {
             if (now > voucher.startDate && now < voucher.endDate
                 && voucher.quantity > 0
                 && (
-                    (voucher.applyEmail.length == 0 || voucher.applyEmail.includes(email)) ||
-                    (voucher.applyTicketId.length == 0 || voucher.applyTicketId.some(id => ticketIds.includes(id)))
+                    (voucher.applyEmail?.length == 0 || voucher.applyEmail.includes(email)) ||
+                    (voucher.applyTicketId?.length == 0 || voucher.applyTicketId.some(id => ticketIds.includes(id)))
                 )
             ) return voucher;
         });

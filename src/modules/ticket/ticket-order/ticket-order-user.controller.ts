@@ -16,8 +16,8 @@ export class TicketOrderUserController {
 
     @Post('create-link')
     async createLinkPayment(@Body() order: CreateTicketOrderDto) {
-        return await this.orderQueue.add({ data: order } as Job<any>, { delay: 3000 });
-        // return await this.ticketOrderService.createTicketOrder(order);
+        // return await this.orderQueue.add({ data: order } as Job<any>, { delay: 3000 });
+        return await this.ticketOrderService.createTicketOrder(order);
     }
 
     @Get('get-result/:orderId')
