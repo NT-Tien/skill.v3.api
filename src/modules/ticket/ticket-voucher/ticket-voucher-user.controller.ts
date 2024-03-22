@@ -1,9 +1,9 @@
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
 import { TicketVoucherService } from "./ticket-voucher.service";
 import { FastifyRequest } from "fastify";
 import { Controller, Inject, Post, Req, Body, UseGuards } from "@nestjs/common";
 import { UserGuard } from "src/modules/auth/guards/user.guard";
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 @ApiTags('ticket-voucher-user')
 @UseGuards(UserGuard)
@@ -14,12 +14,24 @@ export class TicketVoucherUserController {
     ) { }
 
     @Post('get-available-vouchers')
+    @ApiBody({
+        schema: {
+            type: 'object',
+            properties: {
+                ticketIds: {
+                    type: 'array',
+                    items: { type: 'string' },
+                }
+            }
+        },
+        required: false
+    })
     @ApiBearerAuth()
-    async getAvailableVouchers(@Req() req: FastifyRequest['raw'], @Body() data: { ticketId: string }) {
+    async getAvailableVouchers(@Req() req: FastifyRequest['raw'], @Body() data: { ticketIds: string[] }) {
         var token = req.headers.authorization?.split(' ')[1];
         var decoded = jwt.decode(token) as any;
         if (!decoded.email) throw new Error('Email in token is not exits!');
-        return await this.ticketVoucherService.getAvailableVouchers(data.ticketId, decoded.email);
+        return await this.ticketVoucherService.getAvailableVouchers(data?.ticketIds, decoded?.email);
     }
-    
+
 }

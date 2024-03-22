@@ -1,5 +1,5 @@
 import { BaseEntity } from "src/common/base/entity.base";
-import { Column, Entity, ManyToMany } from "typeorm";
+import { Column, Entity, ManyToOne } from "typeorm";
 import { TicketOrderEntity } from "./ticket-order.entity";
 import { TicketEntity } from "./ticket.entity";
 
@@ -9,11 +9,19 @@ import { TicketEntity } from "./ticket.entity";
 })
 export class TicketOrderItemEntity extends BaseEntity {
 
-    @ManyToMany(() => TicketOrderEntity, ticketOrder => ticketOrder.id)
-    ticketOrder: TicketOrderEntity;
+    @ManyToOne(() => TicketOrderEntity, ticketOrder => ticketOrder.id)
+    ticketOrder: string;
 
-    @ManyToMany(() => TicketEntity, ticket => ticket.id)
-    ticket: TicketOrderEntity;
+    @ManyToOne(() => TicketEntity, ticket => ticket.id)
+    ticket: string;
+
+    @Column({
+        name: "name",
+        type: "varchar",
+        length: 255,
+        nullable: false,
+    })
+    name: string;
 
     @Column({
         name: "quantity",

@@ -13,6 +13,7 @@ export class TicketOrderProcessor {
     @Process()
     async processJob(job: Job<any>) {
         const { data } = job;
-        return  await this.ticketOrderService.createTicketOrder(data.data);
+        return await this.ticketOrderService.createTicketOrder(data.data);
+
     }
 }

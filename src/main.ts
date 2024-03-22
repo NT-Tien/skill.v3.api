@@ -1,4 +1,4 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as morgan from 'morgan';
@@ -9,8 +9,6 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import * as multipart from '@fastify/multipart';
-import { AllExceptionsFilter } from './common/exceptions/global.exception';
-import { join } from 'path';
 
 async function bootstrap() {
 
@@ -55,9 +53,9 @@ async function bootstrap() {
   });
   // -----------------------------------------------
 
-  app.useStaticAssets({
-    root: join(__dirname, '..', 'logs'),
-  });
+  // app.useStaticAssets({
+  //   root: join(__dirname, '..', 'logs'),
+  // });
 
   await app.listen(8080, '0.0.0.0');
 

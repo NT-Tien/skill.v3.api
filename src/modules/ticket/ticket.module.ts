@@ -16,12 +16,13 @@ import { TicketOrderEntity } from "./entities/ticket-order.entity";
 import { TicketOrderItemEntity } from "./entities/ticket-order-item.entity";
 import { TicketOrderCheckinEntity } from "./entities/ticket-order-checkin.entity";
 import { TicketOrderService } from "./ticket-order/ticket-order.service";
+import { PayOSService } from "./ticket-order/payment/payos.service";
 
 @Module({
     imports:[
         TypeOrmModule.forFeature([
-            TicketEntity, 
-            TicketVoucherEntity, 
+            TicketEntity,
+            TicketVoucherEntity,
             TicketOrderEntity,
             TicketOrderItemEntity,
             TicketOrderCheckinEntity,
@@ -43,6 +44,10 @@ import { TicketOrderService } from "./ticket-order/ticket-order.service";
             useClass: TicketOrderService,
         },
         TicketOrderProcessor,
+        {
+            provide: 'PAYOS_SERVICE_TIENNT',
+            useClass: PayOSService,
+        },
     ],
     controllers: [
         TicketController,

@@ -30,27 +30,22 @@ export class PayOSService {
     // check order info and return link payment
 
     async createLinkPayment(payload: payloadType): Promise<any> {
-
-        // setup payload
-        var payload: payloadType = {
-            orderCode: Date.now(),
-            amount: 10000,
-            description: '0123456789',
-            buyerName: "NGUYEN TRONG TIEN",
-            buyerEmail: "test.dev@gmail.com",
-            buyerPhone: "0123456789",
-            items: [
-                {
-                    "id": "string",
-                    "product_id": "string",
-                    "name": "string",
-                    "material": "string",
-                    "price": 1000,
-                    "quantity": 10
-                }
-            ]
-        }
-        // generate hmac
+        // var payload: payloadType = {
+        //     orderCode: Date.now(),
+        //     amount: 10000,
+        //     description: '0123456789',
+        //     buyerName: "NGUYEN TRONG TIEN",
+        //     buyerEmail: "test.dev@gmail.com",
+        //     buyerPhone: "0123456789",
+        //     items: [
+        //         {
+        //             "id": "string",
+        //             "name": "string",
+        //             "price": 1000,
+        //             "quantity": 10
+        //         }
+        //     ]
+        // }
         var hmac = await this.generateHmac(payload);
         return await fetch('https://api-merchant.payos.vn/v2/payment-requests', {
             method: 'POST',
@@ -63,13 +58,13 @@ export class PayOSService {
                 ...payload,
                 "cancelUrl": this.cancelURL,
                 "returnUrl": this.returnURL,
-                "expiredAt": Math.floor(Date.now() / 1000) + (2 * 60), // 5 minutes
+                "expiredAt": Math.floor(Date.now() / 1000) + (10 * 60), // 10 minutes
                 "signature": hmac
             }),
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                return data;
             })
             .catch((error) => {
                 throw new HttpException(error, 400);

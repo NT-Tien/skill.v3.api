@@ -70,9 +70,5 @@ export class TicketOrderEntity extends BaseEntity {
     @OneToMany(() => TicketOrderItemEntity, ticketOrderItem => ticketOrderItem.ticketOrder)
     items: TicketOrderItemEntity[];
 
-    @OneToMany(() => TicketOrderCheckinEntity, ticketOrderCheckin=> ticketOrderCheckin.ticketOrder)
-    checkins: TicketOrderCheckinEntity[];
-
-
 
 }

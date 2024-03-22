@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsArray, IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateTicketVoucherDto {
 
@@ -39,11 +39,11 @@ export class CreateTicketVoucherDto {
     endDate: Date
 
     @ApiProperty()
-    @IsString()
+    @IsArray()
     applyTicketId: string[]
 
     @ApiProperty()
-    @IsString()
+    @IsArray()
     applyEmail: string[]
 
 }

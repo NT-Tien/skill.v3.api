@@ -17,5 +17,5 @@ export interface TicketVoucherServiceInterface {
      * @param email
      * @returns array of vouchers
     */
-    getAvailableVouchers(ticketId: string, email: string): Promise<any>;
+    getAvailableVouchers(ticketIds: string[], email: string): Promise<any>;
 }

@@ -25,7 +25,7 @@ export class CreateTicketOrderDto {
 
     @ApiProperty({
         required: false,
-        default: 'Voucher code (optional)',
+        default: '',
     })
     ticketVoucher?: string;
 
@@ -35,7 +35,7 @@ export class CreateTicketOrderDto {
             type: 'object',
             properties: {
                 ticketId: { type: 'string' },
-                ticketName: { type: 'string' },
+                name: { type: 'string' },
                 quantity: { type: 'number' },
                 price: { type: 'number' }
             }
