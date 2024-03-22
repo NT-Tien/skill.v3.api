@@ -25,6 +25,8 @@ export interface AuthServiceInterface {
     // Get PayloadToken from token
     decodeToken(token: string): Promise<PayloadTokenDto>;
     // ! features for admin
+    // Get all accounts
+    getAllAccounts(): Promise<any>;
     // Create new account
     createAccount(data: RegisterDataDto): Promise<any>;
     // Update account

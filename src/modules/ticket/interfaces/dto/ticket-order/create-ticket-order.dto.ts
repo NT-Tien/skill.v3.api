@@ -9,13 +9,23 @@ export class CreateTicketOrderDto {
     email: string;
 
     @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    phone: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    username: string;
+
+    @ApiProperty()
     @IsNumber()
     @IsNotEmpty()
     total: number;
 
     @ApiProperty({
         required: false,
-        default: 'Voucher code',
+        default: 'Voucher code (optional)',
     })
     ticketVoucher?: string;
 

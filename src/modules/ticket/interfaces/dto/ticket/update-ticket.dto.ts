@@ -19,18 +19,15 @@ export class UpdateTicketDto extends BaseDTO {
     @ApiProperty()
     @IsNumber()
     @IsNotEmpty()
+    @Expose()
     price: number
-
-    @ApiProperty()
-    @IsNumber()
-    @IsNotEmpty()
-    quantity: number
 
     @ApiProperty()
     @IsDate()
     @Transform(({ value }) => new Date(value))
     @Type(() => Date)
     @IsNotEmpty()
+    @Expose()
     startDate: Date
 
     @ApiProperty()
@@ -38,8 +35,10 @@ export class UpdateTicketDto extends BaseDTO {
     @Transform(({ value }) => new Date(value))
     @Type(() => Date)
     @IsNotEmpty()
+    @Expose()
     endDate: Date
 
+    @Expose()
     updatedAt: Date
 
 }

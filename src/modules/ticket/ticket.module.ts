@@ -15,6 +15,7 @@ import { TicketOrderUserController } from "./ticket-order/ticket-order-user.cont
 import { TicketOrderEntity } from "./entities/ticket-order.entity";
 import { TicketOrderItemEntity } from "./entities/ticket-order-item.entity";
 import { TicketOrderCheckinEntity } from "./entities/ticket-order-checkin.entity";
+import { TicketOrderService } from "./ticket-order/ticket-order.service";
 
 @Module({
     imports:[
@@ -39,7 +40,7 @@ import { TicketOrderCheckinEntity } from "./entities/ticket-order-checkin.entity
         },
         {
             provide: 'TICKET_ORDER_SERVICE_TIENNT',
-            useClass: TicketService,
+            useClass: TicketOrderService,
         },
         TicketOrderProcessor,
     ],

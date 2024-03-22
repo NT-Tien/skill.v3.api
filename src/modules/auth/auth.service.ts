@@ -33,7 +33,7 @@ export class AuthService implements AuthServiceInterface {
     async login(email: string, password: string): Promise<any> {
         var account = await this.repositoryAccount.findOne({ where: { email: email } });
         if (!account) throw new HttpException('Account not found', HttpStatus.NOT_FOUND);
-        if (!bcrypt.compareSync(password, account.password)) throw new HttpException('Password not match', HttpStatus.BAD_REQUEST);
+        if (!bcrypt.compareSync(password, account.password) || account.deletedAt != null) throw new HttpException('Account info is not valid', HttpStatus.BAD_REQUEST);
         return this.generateToken({ id: account.id, username: account.username, email: account.email, role: account.role });
     }
     async loginWithFirebaseToken(token: string): Promise<any> {
@@ -41,7 +41,7 @@ export class AuthService implements AuthServiceInterface {
             const decodedToken = await admin.auth().verifyIdToken(token);
             if (decodedToken.email_verified) {
                 var account = await this.repositoryAccount.findOne({ where: { email: decodedToken.email } });
-                if (!account) throw new HttpException("Account info is not valid", HttpStatus.BAD_REQUEST);
+                if (!account || account.deletedAt != null) throw new HttpException("Account info is not valid", HttpStatus.BAD_REQUEST);
                 return this.generateToken({ id: account.id, username: account.username, email: account.email, role: account.role });
             }
         } catch (error) {
@@ -58,7 +58,7 @@ export class AuthService implements AuthServiceInterface {
         const decodedToken = await this.decodeToken(token);
         if (decodedToken.email && decodedToken.exp < Date.now()) {
             var account = await this.repositoryAccount.findOne({ where: { email: decodedToken.email } });
-            if (account.email === decodedToken.email) {
+            if (account.email === decodedToken.email && account.deletedAt == null) {
                 return true;
             }
         }
@@ -68,7 +68,7 @@ export class AuthService implements AuthServiceInterface {
         const decodedToken = await this.decodeToken(token);
         if (decodedToken.email && decodedToken.exp < Date.now()) {
             var account = await this.repositoryAccount.findOne({ where: { email: decodedToken.email } });
-            if (account.email === decodedToken.email && account.role === "user") return true;
+            if (account.email === decodedToken.email && account.role === "user" && account.deletedAt == null) return true;
         }
         return false;
     }
@@ -77,7 +77,7 @@ export class AuthService implements AuthServiceInterface {
         const decodedToken = await this.decodeToken(token);
         if (decodedToken.email && decodedToken.exp < Date.now()) {
             var account = await this.repositoryAccount.findOne({ where: { email: decodedToken.email } });
-            if (account.email === decodedToken.email && account.role === "admin") return true;
+            if (account.email === decodedToken.email && account.role === "admin" && account.deletedAt == null) return true;
         }
         return false;
     }
@@ -85,6 +85,9 @@ export class AuthService implements AuthServiceInterface {
         return await this.jwtService.verifyAsync(token);
     }
     // ! features for admin
+    async getAllAccounts(): Promise<any> {
+        return this.repositoryAccount.find();
+    }
     async createAccount(data: CreateAccountDto): Promise<any> {
         // block admin account to create another admin account
         if (data.role === Role.admin) {

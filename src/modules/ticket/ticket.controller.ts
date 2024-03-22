@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AdminGuard } from "../auth/guards/admin.guard";
 import { TicketService } from "./ticket.service";
 import { CreateTicketDto } from "./interfaces/dto/ticket/create-ticket.dto";
 import { UpdateTicketDto } from "./interfaces/dto/ticket/update-ticket.dto";
+import { UpdateTicketQuantityDto } from "./interfaces/dto/ticket/update-ticket-quantity.dto";
 
 @ApiTags('ticket')
 @UseGuards(AdminGuard)
@@ -35,6 +36,18 @@ export class TicketController {
     @ApiBearerAuth()
     async update(@Param('id') id: string, @Body() data: UpdateTicketDto) {
         return await this.ticketService.updateTicket(id, data);
+    }
+
+    @Patch('/increase/:id')
+    @ApiBearerAuth()
+    async increase(@Param('id') id: string, @Body() body: UpdateTicketQuantityDto) {
+        return await this.ticketService.increaseTicketQuantity(id, body.quantity);
+    }
+
+    @Patch('/decrease/:id')
+    @ApiBearerAuth()
+    async decrease(@Param('id') id: string, @Body() body: UpdateTicketQuantityDto) {
+        return await this.ticketService.decreaseTicketQuantity(id, body.quantity);
     }
 
     @Delete('/:id')

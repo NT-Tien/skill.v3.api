@@ -1,5 +1,5 @@
 import { BaseEntity } from "src/common/base/entity.base";
-import { Column, Entity, OneToMany, Unique } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { TicketOrderItemEntity } from "./ticket-order-item.entity";
 import { TicketOrderCheckinEntity } from "./ticket-order-checkin.entity";
 
@@ -48,7 +48,7 @@ export class TicketOrderEntity extends BaseEntity {
     @Column({
         name: "ticketVoucher",
         type: 'jsonb',
-        nullable: false,
+        nullable: true,
     })
     ticketVoucher: any;
 

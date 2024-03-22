@@ -5,6 +5,8 @@ export interface TicketServiceInterface {
     // CRUD only for admin account
     createTicket(data: CreateTicketDto): Promise<any>;
     updateTicket(id: string, data: UpdateTicketDto): Promise<any>;
+    increaseTicketQuantity(id: string, quantity: number): Promise<any>;
+    decreaseTicketQuantity(id: string, quantity: number): Promise<any>;
     deleteTicket(id: string): Promise<any>;
     softDeleteTicket(id: string): Promise<any>;
     unDeleteTicket(id: string): Promise<any>;
