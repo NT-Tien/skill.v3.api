@@ -34,7 +34,7 @@ export class AuthController {
 
     @Post('login-firebase')
     @HttpCode(HttpStatus.OK)
-    async loginWithFirebaseToken(@Headers('firebase') token: string) {
+    async loginWithFirebaseToken(@Headers('authorization') token: string) {
         return await this.authService.loginWithFirebaseToken(token);
     }
 
