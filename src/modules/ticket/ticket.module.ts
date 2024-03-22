@@ -12,10 +12,19 @@ import { BullModule } from "@nestjs/bull";
 import { TicketOrderProcessor } from "./ticket-order/ticket-order.process";
 import { TicketOrderController } from "./ticket-order/ticket-order.controller";
 import { TicketOrderUserController } from "./ticket-order/ticket-order-user.controller";
+import { TicketOrderEntity } from "./entities/ticket-order.entity";
+import { TicketOrderItemEntity } from "./entities/ticket-order-item.entity";
+import { TicketOrderCheckinEntity } from "./entities/ticket-order-checkin.entity";
 
 @Module({
     imports:[
-        TypeOrmModule.forFeature([TicketEntity, TicketVoucherEntity]),
+        TypeOrmModule.forFeature([
+            TicketEntity, 
+            TicketVoucherEntity, 
+            TicketOrderEntity,
+            TicketOrderItemEntity,
+            TicketOrderCheckinEntity,
+        ]),
         BullModule.registerQueue({name: 'ticket-order-queue'}),
         AuthModule,
     ],
@@ -32,7 +41,7 @@ import { TicketOrderUserController } from "./ticket-order/ticket-order-user.cont
             provide: 'TICKET_ORDER_SERVICE_TIENNT',
             useClass: TicketService,
         },
-        TicketOrderProcessor
+        TicketOrderProcessor,
     ],
     controllers: [
         TicketController,

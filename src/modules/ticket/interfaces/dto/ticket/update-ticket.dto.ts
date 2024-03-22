@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Transform, Type } from "class-transformer";
+import { Expose, Transform, Type } from "class-transformer";
 import { IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { BaseDTO } from "src/common/base/dto.base";
 
@@ -8,6 +8,7 @@ export class UpdateTicketDto extends BaseDTO {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
+    @Expose()
     ticketName: string
 
     @ApiProperty()
@@ -38,5 +39,7 @@ export class UpdateTicketDto extends BaseDTO {
     @Type(() => Date)
     @IsNotEmpty()
     endDate: Date
+
+    updatedAt: Date
 
 }

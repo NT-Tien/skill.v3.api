@@ -12,17 +12,17 @@ export class TicketVoucherService implements TicketVoucherServiceInterface {
         @InjectRepository(TicketVoucherEntity) private ticketVoucherRepository: Repository<TicketVoucherEntity>
     ) { }
     async getAvailableVouchers(ticketId: string, email: string): Promise<any> {
-        var vouchers = await this.ticketVoucherRepository.find();
-        var now = new Date();
-        return vouchers.filter(voucher => {
-            if (now > voucher.startDate && now < voucher.endDate
-                && voucher.quantity > 0
-                && (
-                    (voucher.applyTicketId.length == 0 || voucher.applyTicketId.includes(ticketId))
-                    || (voucher.applyEmail.length == 0 || voucher.applyEmail.includes(email))
-                )
-            ) return voucher;
-        });
+        // var vouchers = await this.ticketVoucherRepository.find();
+        // var now = new Date();
+        // return vouchers.filter(voucher => {
+        //     if (now > voucher.startDate && now < voucher.endDate
+        //         && voucher.quantity > 0
+        //         && (
+        //             (voucher.applyTicketId.length == 0 || voucher.applyTicketId.includes(ticketId))
+        //             || (voucher.applyEmail.length == 0 || voucher.applyEmail.includes(email))
+        //         )
+        //     ) return voucher;
+        // });
     }
     createTicketVoucher(data: CreateTicketVoucherDto): Promise<any> {
         return this.ticketVoucherRepository.save(data);

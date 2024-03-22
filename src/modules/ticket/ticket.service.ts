@@ -16,7 +16,10 @@ export class TicketService implements TicketServiceInterface {
         return this.ticketRepository.save(data);
     }
     updateTicket(id: string, data: UpdateTicketDto): Promise<any> {
-        return this.ticketRepository.update(id, data);
+        var validData = UpdateTicketDto.plainToClass(data);
+        console.log(validData);
+        
+        return this.ticketRepository.update(id, validData);
     }
     deleteTicket(id: string): Promise<any> {
         return this.ticketRepository.delete(id);

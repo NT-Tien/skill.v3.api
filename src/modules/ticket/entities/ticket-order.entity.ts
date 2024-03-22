@@ -1,5 +1,7 @@
 import { BaseEntity } from "src/common/base/entity.base";
-import { Column, Entity, Unique } from "typeorm";
+import { Column, Entity, OneToMany, Unique } from "typeorm";
+import { TicketOrderItemEntity } from "./ticket-order-item.entity";
+import { TicketOrderCheckinEntity } from "./ticket-order-checkin.entity";
 
 export enum TicketOrderStatus {
     PENDING = 'PENDING',
@@ -19,6 +21,14 @@ export class TicketOrderEntity extends BaseEntity {
         nullable: false,
     })
     email: string;
+
+    @Column({
+        name: "phone",
+        type: "varchar",
+        length: 15,
+        nullable: false,
+    })
+    phone: string;
 
     @Column({
         name: "username",
@@ -57,11 +67,12 @@ export class TicketOrderEntity extends BaseEntity {
     })
     payment: any;
 
-    @Column({
-        name: "items",
-        type: "jsonb",
-        nullable: false,
-    })
-    items: any;
+    @OneToMany(() => TicketOrderItemEntity, ticketOrderItem => ticketOrderItem.ticketOrder)
+    items: TicketOrderItemEntity[];
+
+    @OneToMany(() => TicketOrderCheckinEntity, ticketOrderCheckin=> ticketOrderCheckin.ticketOrder)
+    checkins: TicketOrderCheckinEntity[];
+
+
 
 }

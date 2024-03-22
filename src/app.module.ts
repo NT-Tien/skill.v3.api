@@ -13,7 +13,6 @@ import { ProjectModule } from './modules/project/project.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { BullModule } from '@nestjs/bull';
 import { QUEUE_CONFIG } from './config/queue.config';
-import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
@@ -26,7 +25,6 @@ import { PaymentModule } from './modules/payment/payment.module';
     FileModule,
     ProjectModule,
     TicketModule,
-    PaymentModule
   ], 
   providers: [
     {
