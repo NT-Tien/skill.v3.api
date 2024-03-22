@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Headers, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Headers, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiHeader, ApiHeaders, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "./auth.service";
 import { UserGuard } from "./guards/user.guard";
@@ -55,6 +55,14 @@ export class AuthController {
     }
 
     // ! apis for admin
+
+    @Get('admin/all-accounts')
+    @HttpCode(HttpStatus.OK)
+    @UseGuards(AdminGuard)
+    @ApiBearerAuth()
+    async getAllAccounts() {
+        return await this.authService.getAllAccounts();
+    }
 
     @Post('admin/create-account')
     @HttpCode(HttpStatus.CREATED)
