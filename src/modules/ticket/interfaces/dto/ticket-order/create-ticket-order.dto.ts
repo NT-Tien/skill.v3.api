@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
+import { IsEmpty, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
 
 export class CreateTicketOrderDto {
 
@@ -28,7 +28,6 @@ export class CreateTicketOrderDto {
         description: 'Ticket Voucher ID',
         default: '',
     })
-    @IsUUID()
     ticketVoucher?: string;
 
     @ApiProperty({ 

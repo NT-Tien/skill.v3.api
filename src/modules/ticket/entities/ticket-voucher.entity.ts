@@ -47,7 +47,6 @@ export class TicketVoucherEntity extends BaseEntity {
         name: "applyTicketId",
         type: "varchar",
         array: true,
-        nullable: true,
     })
     applyTicketId: string[]; // if applyTicketId is null, it means that this voucher is applied to all tickets
 
@@ -55,7 +54,6 @@ export class TicketVoucherEntity extends BaseEntity {
         name: "applyEmail",
         type: "varchar",
         array: true,
-        nullable: true,
     })
     applyEmail: string[]; // if applyEmail is null, it means that this voucher is applied to all users
 

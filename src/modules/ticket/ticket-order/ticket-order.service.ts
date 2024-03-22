@@ -8,6 +8,7 @@ import { PayOSService } from "./payment/payos.service";
 import { TicketOrderItemEntity } from "../entities/ticket-order-item.entity";
 import { TicketEntity } from "../entities/ticket.entity";
 import { TicketVoucherEntity } from "../entities/ticket-voucher.entity";
+import { isUUID } from "class-validator";
 
 @Injectable()
 export class TicketOrderService implements TicketOrderServiceInterface {
@@ -28,8 +29,10 @@ export class TicketOrderService implements TicketOrderServiceInterface {
         try {
             // check order data is available or not before create
             // 1. check ticket voucher is available if user added voucher
+            var ticketVoucher: TicketVoucherEntity;
             if (data.ticketVoucher) {
-                var ticketVoucher = await queryRunner.manager.findOne(TicketVoucherEntity, { where: { id: data.ticketVoucher } });
+                if (!isUUID(data.ticketVoucher as any)) throw new HttpException('Ticket Voucher is not correct', 400)
+                ticketVoucher = await queryRunner.manager.findOne(TicketVoucherEntity, { where: { id: data.ticketVoucher } });
                 if (!ticketVoucher) throw new HttpException('Ticket Voucher not found', 404);
                 if (ticketVoucher.deletedAt) throw new HttpException('Ticket Voucher is deleted', 400);
                 if (ticketVoucher.startDate > new Date()) throw new HttpException('Ticket Voucher is not available', 400);
@@ -39,7 +42,7 @@ export class TicketOrderService implements TicketOrderServiceInterface {
                     if (
                         !ticketVoucher.applyEmail.includes(data.email) &&
                         !data.items.some(item => ticketVoucher.applyTicketId.includes(item.ticketId))
-                        ) throw new HttpException('Ticket Voucher is not available for user or any tickets', 400);
+                    ) throw new HttpException('Ticket Voucher is not available for user or any tickets', 400);
                 }
             }
             // 2. check total price is correct
@@ -55,7 +58,12 @@ export class TicketOrderService implements TicketOrderServiceInterface {
                 if (ticketEntity.endDate < new Date()) throw new HttpException('Ticket is expired', 400);
                 if (ticketEntity.ticketName != ticket.name) throw new HttpException('Ticket name is not correct', 400);
             }
-            if (total != data.total)
+            if (ticketVoucher) {
+                total = total - ticketVoucher.discount;
+                if (total < 2000 && total && (total == data.total - ticketVoucher.discount)) {
+                    data.total = 2000;
+                } else throw new HttpException('Total price is not correct', 400);
+            } else if (total != data.total)
                 throw new HttpException('Total price is not correct', 400);
             // -------------------------------
             var order = await queryRunner.manager.save(TicketOrderEntity, data);
