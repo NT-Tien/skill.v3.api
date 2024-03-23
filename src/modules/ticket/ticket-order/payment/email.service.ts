@@ -14,41 +14,38 @@ const transporter = nodemailer.createTransport({
 
 var testPayload = {
     total: '10000',
-    products: [
+    items: [
         {
-            id: '861fb988-f356-4980-9d2b-ab7e013fa74a',
+            ticketId: '861fb988-f356-4980-9d2b-ab7e013fa74a',
             name: 'opt 1',
-            product_name: 'product 1',
             price: 2000,
-            material: 'wood',
             quantity: 5,
         }
     ],
+    voucher: '2000',
     ussername: 'tienntse',
-    address: 'thu duc12312312',
     phone: '0356410582',
     email: 'tienntse161099@fpt.edu.vn',
 }
 
 // send mail for user paid
 export async function sendMailForUserPaid(payload: any) {
-    if (!payload) {
-        payload = testPayload;
-    }
+    console.log('send mail for user paid', payload);
+    // payload = testPayload;
     // read file html 
-    var htmlContent = fs.readFileSync('./src/modules/payment/mail/index.html', 'utf8');
+    var htmlContent = fs.readFileSync('./src/modules/ticket/ticket-order/payment/mail/index.html', 'utf8');
     // replace content
     var addOrderNumberContent = htmlContent.replace('#247816', `#***${Math.floor(Math.random() * 1000)}`);
     var addUserNameContent = addOrderNumberContent.replace('#{username}#', payload.ussername);
     var addPhoneContent = addUserNameContent.replace('#{phone}#', payload.phone);
-    var addAddressContent = addPhoneContent.replace('#{address}#', payload.address);
-    var addProductsContent = addAddressContent.replace('#{products}#', payload.products.map((item: any) => {
+    var addAddressContent = addPhoneContent.replace('#{address}#', 'Không có địa chỉ');
+    var addProductsContent = addAddressContent.replace('#{products}#', payload.items.map((item: any) => {
         return `
         <tr>
               <td class="order-list__product-description-cell"
                 style="font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Roboto&quot;, &quot;Oxygen&quot;, &quot;Ubuntu&quot;, &quot;Cantarell&quot;, &quot;Fira Sans&quot;, &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif; width: 100%;">
                 <span class="order-list__item-title"
-                  style="font-size: 16px; font-weight: 600; line-height: 1.4; color: #555;">${item.product_name}&nbsp;×&nbsp;${item.quantity}</span><br>
+                  style="font-size: 16px; font-weight: 600; line-height: 1.4; color: #555;">${item.name}&nbsp;×&nbsp;${item.quantity}</span><br>
                 <span class="order-list__item-variant"
                   style="font-size: 14px; color: #999;">${item.name}</span>
               </td>
@@ -61,8 +58,13 @@ export async function sendMailForUserPaid(payload: any) {
               </td>
          </tr>`
     }))
-    var addTotalContent1 = addProductsContent.replace('#{total}#', payload.total.replace(/\B(?=(\d{3})+(?!\d))/g, '.'));
-    var addTotalContent2 = addTotalContent1.replace('#{total}#', payload.total.replace(/\B(?=(\d{3})+(?!\d))/g, '.'));
+    var daftTotal = payload.total;
+    if(payload.voucher) {
+       daftTotal = payload.total + payload.voucher.discount;
+    }
+    var addTotalContent1 = addProductsContent.replace('#{total}#', daftTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'));
+    var addVoucherContent = addTotalContent1.replace('#{voucher}#', payload.voucher ? payload.voucher.discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : 0);
+    var addTotalContent2 = addVoucherContent.replace('#{final-total}#', payload.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'));
     const mailOptions = {
         from: 'skillceterabot@gmail.com',
         to: payload.email,

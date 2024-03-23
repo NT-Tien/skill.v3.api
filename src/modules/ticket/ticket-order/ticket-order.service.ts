@@ -10,6 +10,7 @@ import { TicketEntity } from "../entities/ticket.entity";
 import { TicketVoucherEntity } from "../entities/ticket-voucher.entity";
 import { isUUID } from "class-validator";
 import { UpdateTicketOrderDto } from "../interfaces/dto/ticket-order/update-ticket-order.dto";
+import { FilterFieldTicketVoucherDto } from "../interfaces/dto/ticket-voucher/filter-field-ticket-voucher.dto";
 
 @Injectable()
 export class TicketOrderService implements TicketOrderServiceInterface {
@@ -31,6 +32,8 @@ export class TicketOrderService implements TicketOrderServiceInterface {
         await queryRunner.connect();
         await queryRunner.startTransaction("SERIALIZABLE");
         try {
+            // order limit 10 tickets
+            if (data.items.length > 10) throw new HttpException('Order limit 10 tickets', 400);
             // check order data is available or not before create
             // 1. check ticket voucher is available if user added voucher
             var ticketVoucher: TicketVoucherEntity;
@@ -64,9 +67,13 @@ export class TicketOrderService implements TicketOrderServiceInterface {
             }
             if (ticketVoucher) {
                 total = total - ticketVoucher.discount;
-                if (total < 2000 && total && (total == data.total - ticketVoucher.discount)) {
+                if (total < 2000) {
                     data.total = 2000;
-                } else throw new HttpException('Total price is not correct', 400);
+                }
+                if (total != data.total) {
+                    throw new HttpException('Total price is not correct', 400);
+                }
+                data.ticketVoucher = FilterFieldTicketVoucherDto.plainToClass(ticketVoucher);
             } else if (total != data.total)
                 throw new HttpException('Total price is not correct', 400);
             // -------------------------------
@@ -108,8 +115,14 @@ export class TicketOrderService implements TicketOrderServiceInterface {
     unDeleteTicketOrder(id: string): Promise<any> {
         return this.ticketOrderRepository.update(id, { deletedAt: null });
     }
-    getTicketOrderById(id: string): Promise<any> {
-        return this.ticketOrderRepository.find({ where: { id } });
+    async getTicketOrderById(id: string): Promise<any> {
+        var order = await this.ticketOrderRepository
+            .createQueryBuilder("TICKET_ORDER")
+            .leftJoinAndSelect("TICKET_ORDER.items", "TICKET_ORDER_ITEM")
+            .where("TICKET_ORDER.id = :id", { id })
+            .getOne();
+        if (!order) throw new HttpException('Order not found', 404);
+        return order;
     }
     getTicketOrders(): Promise<any> {
         return this.ticketOrderRepository.createQueryBuilder("TICKET_ORDER")

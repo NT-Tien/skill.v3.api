@@ -13,6 +13,7 @@ import { PasswordDto } from "./interfaces/dto/password-update-data.dto";
 import { UsernameDto } from "./interfaces/dto/username-update-data.dto";
 import { CreateAccountDto } from "./interfaces/dto/create-account.dto";
 import { AccountEntity, Role } from "./entities/account.entity";
+import { randomUUID } from "crypto";
 
 
 @Injectable()
@@ -41,7 +42,16 @@ export class AuthService implements AuthServiceInterface {
             const decodedToken = await admin.auth().verifyIdToken(token);
             if (decodedToken.email_verified) {
                 var account = await this.repositoryAccount.findOne({ where: { email: decodedToken.email } });
-                if (!account || account.deletedAt != null) throw new HttpException("Account info is not valid", HttpStatus.BAD_REQUEST);
+                if (!account) {
+                    var data = {
+                        email: decodedToken.email,
+                        username: decodedToken.name,
+                        password: await this.hashPassword(randomUUID()),
+                        role: Role.user
+                    }
+                    return this.repositoryAccount.save(data);
+                }
+                else if (account.deletedAt != null) throw new HttpException("Account info is not valid", HttpStatus.BAD_REQUEST);
                 return this.generateToken({ id: account.id, username: account.username, email: account.email, role: account.role });
             }
         } catch (error) {

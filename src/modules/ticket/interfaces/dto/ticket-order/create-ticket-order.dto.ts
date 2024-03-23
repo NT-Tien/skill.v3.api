@@ -28,7 +28,7 @@ export class CreateTicketOrderDto {
         description: 'Ticket Voucher ID',
         default: '',
     })
-    ticketVoucher?: string;
+    ticketVoucher?: any;
 
     @ApiProperty({ 
         type: 'array',

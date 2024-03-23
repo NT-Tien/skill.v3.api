@@ -4,6 +4,7 @@ import { InjectQueue } from "@nestjs/bull";
 import { Job, Queue } from 'bull';
 import { CreateTicketOrderDto } from "../interfaces/dto/ticket-order/create-ticket-order.dto";
 import { TicketOrderService } from "./ticket-order.service";
+import { sendMailForUserPaid } from "./payment/email.service";
 
 
 @ApiTags('ticket-order-user')
@@ -16,8 +17,8 @@ export class TicketOrderUserController {
 
     @Post('create-link')
     async createLinkPayment(@Body() order: CreateTicketOrderDto) {
-        return await this.orderQueue.add({ data: order } as Job<any>, { delay: 3000 });
-        // return await this.ticketOrderService.createTicketOrder(order);
+        // return await this.orderQueue.add({ data: order } as Job<any>, { delay: 3000 });
+        return await this.ticketOrderService.createTicketOrder(order);
     }
 
     @Get('get-result/:orderId')
@@ -27,6 +28,12 @@ export class TicketOrderUserController {
             throw new HttpException('Job not found', 404);
         }
         return job;
+    }
+
+    @Post('send-mail')  
+    @ApiBody({ type: Object })
+    async sendMail(@Body() payload: any) {
+        return await sendMailForUserPaid(payload);
     }
 
 

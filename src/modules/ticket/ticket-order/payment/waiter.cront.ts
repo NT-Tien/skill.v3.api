@@ -5,7 +5,8 @@ import { Repository } from 'typeorm';
 import { Interval } from '@nestjs/schedule';
 import { TicketOrderService } from '../ticket-order.service';
 import * as dotenv from 'dotenv';
-import { TicketOrderStatus } from '../../entities/ticket-order.entity';
+import { TicketOrderEntity, TicketOrderStatus } from '../../entities/ticket-order.entity';
+import { sendMailForUserPaid } from './email.service';
 dotenv.config();
 
 @Injectable()
@@ -33,9 +34,10 @@ export class WaiterService {
             });
     }
 
-    @Interval(30 * 1000) // Every 30 seconds
+    @Interval(1 * 60 * 1000) // Every 60 seconds
     async checkPayment() {
         var waiters = await this.waiterRepository.find();
+        console.log(`Checking payment ${Date.now()}`, waiters);
         for (let i = 0; i < waiters.length; i++) {
             setTimeout(async () => {
                 console.log('Checking payment', waiters[i].id);
@@ -52,7 +54,9 @@ export class WaiterService {
     }
 
     private async handleWaiter(waiter: any, result: any) {
-        var order = await this.ticketOrderService.getTicketOrderById(waiter.orderId);
+        var order = await this.ticketOrderService.getTicketOrderById(waiter.orderId) as TicketOrderEntity;
+        console.log('order', order);
+        console.log('result', result);
         if (result.data.status === 'PAID') {
             // update order status
             await this.ticketOrderService.updateTicketOrder(waiter.orderId, {
@@ -61,14 +65,15 @@ export class WaiterService {
             });
             // delete waiter
             await this.waiterRepository.delete(waiter.id);
-            // await sendMailForUserPaid({
-            //     total: order.total,
-            //     products: order.products,
-            //     ussername: order.username,
-            //     address: order.address,
-            //     phone: order.phone,
-            //     email: order.email
-            // })
+            console.log('Order paid', order);
+            await sendMailForUserPaid({
+                total: order.total,
+                items: order.items,
+                ussername: order.username,
+                phone: order.phone,
+                email: order.email,
+                voucher: order.ticketVoucher,
+            })
         } else if (result.data.status === 'EXPIRED') {
             // increase products quantity back to stock
             // ... 

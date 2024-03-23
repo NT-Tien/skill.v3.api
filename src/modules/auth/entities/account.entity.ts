@@ -33,7 +33,7 @@ export class AccountEntity extends BaseEntity {
         name: "Phone",
         type: "varchar",
         length: 20,
-        nullable: false,
+        nullable: true,
     })
     phone: string;
 
