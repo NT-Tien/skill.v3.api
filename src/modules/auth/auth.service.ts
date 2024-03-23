@@ -93,13 +93,9 @@ export class AuthService implements AuthServiceInterface {
         if (data.role === Role.admin) {
             throw new HttpException("Admin account can't create another admin account", HttpStatus.BAD_REQUEST);
         }
-        // get all account for checking duplicate email
-        var accounts = await this.repositoryAccount.find();
-        for (let i = 0; i < accounts.length; i++) {
-            if (accounts[i].email === data.email) {
-                throw new HttpException("Email is already exist", HttpStatus.BAD_REQUEST);
-            }
-        }
+        // check email is exist
+        var account = await this.repositoryAccount.findOne({ where: { email: data.email } });
+        if (account) throw new HttpException('Email is exist', HttpStatus.BAD_REQUEST);
         data.password = await this.hashPassword(data.password);
         return this.repositoryAccount.save(data);
     }
