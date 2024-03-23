@@ -73,7 +73,7 @@ export class WaiterService {
             // increase products quantity back to stock
             // ... 
             await this.ticketOrderService.updateTicketOrder(waiter.orderId, {
-                payment: result.data,
+                payment: null,
                 status: TicketOrderStatus.EXPIRED
             });
             await this.waiterRepository.delete(waiter.id);
@@ -82,7 +82,7 @@ export class WaiterService {
             // ... 
             await this.waiterRepository.delete(waiter.id);
             await this.ticketOrderService.updateTicketOrder(waiter.orderId, {
-                payment: result.data,
+                payment: null,
                 status: TicketOrderStatus.CANCELED
             });
         }
