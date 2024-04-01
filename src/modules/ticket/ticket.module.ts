@@ -21,6 +21,7 @@ import { WaiterService } from "./ticket-order/payment/waiter.cront";
 import { TicketOrderWaiterEntity } from "./entities/ticket-order-waiter.entity";
 import { TicketOrderCheckinController } from "./ticket-order-checkin/ticket-order-checkin.controller";
 import { TicketOrderCheckinService } from "./ticket-order-checkin/ticket-order-checkin.service";
+import { TicketUserController } from "./ticket-user.controlelr";
 
 @Module({
     imports:[
@@ -61,6 +62,7 @@ import { TicketOrderCheckinService } from "./ticket-order-checkin/ticket-order-c
     ],
     controllers: [
         TicketController,
+        TicketUserController,
         TicketVoucherController,
         TicketVoucherUserController,
         TicketOrderController,
