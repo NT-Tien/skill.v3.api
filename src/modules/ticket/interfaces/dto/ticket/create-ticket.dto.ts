@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform, Type } from "class-transformer";
-import { IsDate, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
 
 export class CreateTicketDto {
 
@@ -37,5 +37,10 @@ export class CreateTicketDto {
     @Type(() => Date)
     @IsNotEmpty()
     endDate: Date
+
+    @ApiProperty()
+    @IsUUID()
+    @IsNotEmpty()
+    project: string;
 
 }

@@ -1,7 +1,5 @@
 import { BaseEntity } from "src/common/base/entity.base";
-import { Column, Entity, ManyToMany } from "typeorm";
-import { TicketOrderEntity } from "./ticket-order.entity";
-import { TicketEntity } from "./ticket.entity";
+import { Column, Entity } from "typeorm";
 
 
 @Entity({
