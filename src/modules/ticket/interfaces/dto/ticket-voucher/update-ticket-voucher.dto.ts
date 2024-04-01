@@ -39,4 +39,7 @@ export class UpdateTicketVoucherDto extends BaseDTO {
     @IsNotEmpty()
     endDate: Date
 
+    @ApiProperty()
+    note: string
+
 }

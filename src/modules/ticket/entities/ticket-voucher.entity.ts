@@ -50,5 +50,12 @@ export class TicketVoucherEntity extends BaseEntity {
     })
     applyTicketId: string[]; // if applyTicketId is null, it means that this voucher is applied to all tickets
 
+    @Column({
+        name: "note",
+        type: "varchar",
+        length: 500,
+        nullable: true,
+    })
+    note: string;
 
 }

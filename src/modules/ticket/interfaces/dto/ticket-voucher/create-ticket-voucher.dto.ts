@@ -42,4 +42,7 @@ export class CreateTicketVoucherDto {
     @IsArray()
     applyTicketId: string[]
 
+    @ApiProperty()
+    note: string
+
 }

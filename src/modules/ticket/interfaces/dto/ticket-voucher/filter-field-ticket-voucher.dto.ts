@@ -17,4 +17,7 @@ export class FilterFieldTicketVoucherDto extends BaseDTO {
     @Expose()
     quantity: number
 
+    @Expose()
+    note: string
+
 }
