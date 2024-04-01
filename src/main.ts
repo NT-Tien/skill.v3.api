@@ -9,6 +9,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import * as multipart from '@fastify/multipart';
+import { writeFileSync } from 'fs';
 
 async function bootstrap() {
 
@@ -45,6 +46,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
+  writeFileSync("./swagger-spec.json", JSON.stringify(document));
   SwaggerModule.setup('swagger', app, document, {
     swaggerOptions: {
       defaultModelsExpandDepth: -1,

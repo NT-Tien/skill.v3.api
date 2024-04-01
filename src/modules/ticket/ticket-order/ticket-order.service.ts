@@ -45,11 +45,9 @@ export class TicketOrderService implements TicketOrderServiceInterface {
                 if (ticketVoucher.startDate > new Date()) throw new HttpException('Ticket Voucher is not available', 400);
                 if (ticketVoucher.endDate < new Date()) throw new HttpException('Ticket Voucher is expired', 400);
                 // check ticket voucher is available for tickets or user
-                if (ticketVoucher.applyTicketId?.length > 0 && ticketVoucher.applyEmail?.length > 0) {
-                    if (
-                        !ticketVoucher.applyEmail.includes(data.email) &&
-                        !data.items.some(item => ticketVoucher.applyTicketId.includes(item.ticketId))
-                    ) throw new HttpException('Ticket Voucher is not available for user or any tickets', 400);
+                if (ticketVoucher.applyTicketId?.length > 0) {
+                    if (!data.items.some(item => ticketVoucher.applyTicketId.includes(item.ticketId)))
+                        throw new HttpException('Ticket Voucher is not available for user or any tickets', 400);
                 }
             }
             // 2. check total price is correct
@@ -129,6 +127,12 @@ export class TicketOrderService implements TicketOrderServiceInterface {
             .leftJoinAndSelect("TICKET_ORDER.items", "TICKET_ORDER_ITEM")
             .leftJoin("TICKET_ORDER_ITEM.ticket", "TICKET")
             .addSelect(["TICKET.id"])
+            .getMany();
+    }
+    getTicketOrderByEmail(email: string): Promise<any> {
+        return this.ticketOrderRepository.createQueryBuilder("TICKET_ORDER")
+            .where("TICKET_ORDER.email = :email", { email })
+            .leftJoinAndSelect("TICKET_ORDER.items", "TICKET_ORDER_ITEM")
             .getMany();
     }
 }

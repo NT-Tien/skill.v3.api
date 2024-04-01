@@ -2,14 +2,14 @@ import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } fr
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AdminGuard } from "src/modules/auth/guards/admin.guard";
 import { CreateTicketOrderDto } from "../interfaces/dto/ticket-order/create-ticket-order.dto";
-import { TicketOrderService } from "./ticket-order.service";
+import { TicketOrderServiceInterface } from "../interfaces/ticket-order.interface";
 
 @ApiTags('ticket-order')
 @UseGuards(AdminGuard)
 @Controller('ticket-order')
 export class TicketOrderController {
     constructor(
-        @Inject('TICKET_ORDER_SERVICE_TIENNT') private ticketOrderService: TicketOrderService
+        @Inject('TICKET_ORDER_SERVICE_TIENNT') private ticketOrderService: TicketOrderServiceInterface
     ) { }
 
     @Get()

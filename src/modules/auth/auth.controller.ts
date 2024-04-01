@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Headers, HttpCode, HttpException, HttpStatus, Inject, Param, Post, Put, Req, Res, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiBody, ApiHeader, ApiHeaders, ApiTags } from "@nestjs/swagger";
-import { AuthService } from "./auth.service";
+import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Inject, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { UserGuard } from "./guards/user.guard";
 import { RegisterDataDto } from "./interfaces/dto/register-data.dto";
 import { LoginLocalDataDto } from "./interfaces/dto/login-data";
@@ -11,13 +10,14 @@ import { PasswordDto } from "./interfaces/dto/password-update-data.dto";
 import { FastifyRequest } from "fastify";
 import { UsernameDto } from "./interfaces/dto/username-update-data.dto";
 import { CreateAccountDto } from "./interfaces/dto/create-account.dto";
+import { AuthServiceInterface } from "./interfaces/auth.service.interface";
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
 
     constructor(
-        @Inject('AUTH_SERVICE_TIENNT') private readonly authService: AuthService,
+        @Inject('AUTH_SERVICE_TIENNT') private readonly authService: AuthServiceInterface,
     ) { }
 
     @Post('register')

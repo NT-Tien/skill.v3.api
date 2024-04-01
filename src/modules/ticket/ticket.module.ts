@@ -19,6 +19,8 @@ import { TicketOrderService } from "./ticket-order/ticket-order.service";
 import { PayOSService } from "./ticket-order/payment/payos.service";
 import { WaiterService } from "./ticket-order/payment/waiter.cront";
 import { TicketOrderWaiterEntity } from "./entities/ticket-order-waiter.entity";
+import { TicketOrderCheckinController } from "./ticket-order-checkin/ticket-order-checkin.controller";
+import { TicketOrderCheckinService } from "./ticket-order-checkin/ticket-order-checkin.service";
 
 @Module({
     imports:[
@@ -52,6 +54,10 @@ import { TicketOrderWaiterEntity } from "./entities/ticket-order-waiter.entity";
             useClass: PayOSService,
         },
         WaiterService,
+        {
+            provide: 'TICKET_ORDER_CHECKIN_SERVICE_TIENNT',
+            useClass: TicketOrderCheckinService,
+        },
     ],
     controllers: [
         TicketController,
@@ -59,6 +65,7 @@ import { TicketOrderWaiterEntity } from "./entities/ticket-order-waiter.entity";
         TicketVoucherUserController,
         TicketOrderController,
         TicketOrderUserController,
+        TicketOrderCheckinController,
     ]
 })
 export class TicketModule {}

@@ -42,8 +42,4 @@ export class CreateTicketVoucherDto {
     @IsArray()
     applyTicketId: string[]
 
-    @ApiProperty()
-    @IsArray()
-    applyEmail: string[]
-
 }

@@ -1,16 +1,16 @@
 import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
-import { TicketVoucherService } from "./ticket-voucher.service";
 import { FastifyRequest } from "fastify";
 import { Controller, Inject, Post, Req, Body, UseGuards } from "@nestjs/common";
 import { UserGuard } from "src/modules/auth/guards/user.guard";
 import * as jwt from 'jsonwebtoken';
+import { TicketVoucherServiceInterface } from "../interfaces/ticket-voucher.interface";
 
 @ApiTags('ticket-voucher-user')
 @UseGuards(UserGuard)
 @Controller('ticket-voucher-user')
 export class TicketVoucherUserController {
     constructor(
-        @Inject('TICKET_VOUCHER_SERVICE_TIENNT') private ticketVoucherService: TicketVoucherService
+        @Inject('TICKET_VOUCHER_SERVICE_TIENNT') private ticketVoucherService: TicketVoucherServiceInterface
     ) { }
 
     @Post('get-available-vouchers')

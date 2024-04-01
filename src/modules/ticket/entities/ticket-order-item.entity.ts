@@ -37,4 +37,5 @@ export class TicketOrderItemEntity extends BaseEntity {
     })
     price: number;
 
+
 }

@@ -9,25 +9,18 @@ import { TicketEntity } from "./ticket.entity";
 })
 export class TicketOrderCheckinEntity extends BaseEntity {
 
-    @ManyToMany(() => TicketOrderEntity, ticketOrder => ticketOrder.id)
-    ticketOrder: TicketOrderEntity;
-
-    @ManyToMany(() => TicketEntity, ticket => ticket.id)
-    ticket: TicketOrderEntity;
-
     @Column({
-        name: "qrCode",
-        type: "jsonb",
+        name: "idOrder",
+        type: "uuid",
         nullable: false,
     })
-    qrCode: JSON;
+    idOrder: string;
 
     @Column({
-        name: "checkin",
-        type: "boolean",
+        name: "idItem",
+        type: "uuid",
         nullable: false,
-        default: false,
     })
-    checkin: boolean;
+    idItem: string;
 
 }
