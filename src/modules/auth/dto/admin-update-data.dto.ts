@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsPhoneNumber, IsString } from "class-validator";
-import { Role } from "../../entities/account.entity";
+import { Role } from "../entities/account.entity";
 
 
 export class AdminUpdateAccountDataDto {

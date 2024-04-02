@@ -1,9 +1,9 @@
-import { AdminUpdateAccountDataDto } from "./dto/admin-update-data.dto";
-import { PasswordDto } from "./dto/password-update-data.dto";
-import { PayloadTokenDto } from "./dto/payload-token.dto";
-import { PhoneDto } from "./dto/phone.dto";
-import { RegisterDataDto } from "./dto/register-data.dto";
-import { UsernameDto } from "./dto/username-update-data.dto";
+import { AdminUpdateAccountDataDto } from "../dto/admin-update-data.dto";
+import { PasswordDto } from "../dto/password-update-data.dto";
+import { PayloadTokenDto } from "../dto/payload-token.dto";
+import { PhoneDto } from "../dto/phone.dto";
+import { RegisterDataDto } from "../dto/register-data.dto";
+import { UsernameDto } from "../dto/username-update-data.dto";
 
 export interface AuthServiceInterface {
     // Hash password

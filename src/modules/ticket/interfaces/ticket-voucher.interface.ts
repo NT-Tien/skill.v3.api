@@ -1,5 +1,5 @@
-import { CreateTicketVoucherDto } from "./dto/ticket-voucher/create-ticket-voucher.dto";
-import { UpdateTicketVoucherDto } from "./dto/ticket-voucher/update-ticket-voucher.dto";
+import { CreateTicketVoucherDto } from "../dto/ticket-voucher/create-ticket-voucher.dto";
+import { UpdateTicketVoucherDto } from "../dto/ticket-voucher/update-ticket-voucher.dto";
 
 export interface TicketVoucherServiceInterface {
     // CRUD only for admin account

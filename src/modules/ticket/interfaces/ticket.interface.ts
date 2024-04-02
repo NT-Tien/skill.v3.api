@@ -1,5 +1,5 @@
-import { CreateTicketDto } from "./dto/ticket/create-ticket.dto";
-import { UpdateTicketDto } from "./dto/ticket/update-ticket.dto";
+import { CreateTicketDto } from "../dto/ticket/create-ticket.dto";
+import { UpdateTicketDto } from "../dto/ticket/update-ticket.dto";
 
 export interface TicketServiceInterface {
     // CRUD only for admin account

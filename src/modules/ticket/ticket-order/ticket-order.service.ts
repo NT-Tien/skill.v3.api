@@ -3,14 +3,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { DataSource, Repository } from "typeorm";
 import { TicketOrderServiceInterface } from "../interfaces/ticket-order.interface";
 import { TicketOrderEntity } from "../entities/ticket-order.entity";
-import { CreateTicketOrderDto } from "../interfaces/dto/ticket-order/create-ticket-order.dto";
+import { CreateTicketOrderDto } from "../dto/ticket-order/create-ticket-order.dto";
 import { PayOSService } from "./payment/payos.service";
 import { TicketOrderItemEntity } from "../entities/ticket-order-item.entity";
 import { TicketEntity } from "../entities/ticket.entity";
 import { TicketVoucherEntity } from "../entities/ticket-voucher.entity";
 import { isUUID } from "class-validator";
-import { UpdateTicketOrderDto } from "../interfaces/dto/ticket-order/update-ticket-order.dto";
-import { FilterFieldTicketVoucherDto } from "../interfaces/dto/ticket-voucher/filter-field-ticket-voucher.dto";
+import { UpdateTicketOrderDto } from "../dto/ticket-order/update-ticket-order.dto";
+import { FilterFieldTicketVoucherDto } from "../dto/ticket-voucher/filter-field-ticket-voucher.dto";
 
 @Injectable()
 export class TicketOrderService implements TicketOrderServiceInterface {

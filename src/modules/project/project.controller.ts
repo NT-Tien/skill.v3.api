@@ -2,8 +2,8 @@ import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } fr
 import { ProjectService } from "./project.service";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AdminGuard } from "../auth/guards/admin.guard";
-import { CreateProjectDto } from "./interface/dto/create-project.dto";
-import { UpdateProjectDto } from "./interface/dto/update-project.dto";
+import { CreateProjectDto } from "./dto/create-project.dto";
+import { UpdateProjectDto } from "./dto/update-project.dto";
 
 @ApiTags('project')
 @UseGuards(AdminGuard)

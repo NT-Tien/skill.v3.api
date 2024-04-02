@@ -1,8 +1,8 @@
 import { Body, Controller, Inject, Param, Post, UseGuards } from "@nestjs/common";
 import { TicketOrderCheckinServiceInterface } from "../interfaces/ticket-order-checkin.interface";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AddCheckinRecordDto } from "../interfaces/dto/ticket-order-checkin/AddCheckinRecord.dto";
-import { GetCheckinRecordsDto } from "../interfaces/dto/ticket-order-checkin/get-checkin-record.dto";
+import { AddCheckinRecordDto } from "../dto/ticket-order-checkin/AddCheckinRecord.dto";
+import { GetCheckinRecordsDto } from "../dto/ticket-order-checkin/get-checkin-record.dto";
 import { AdminGuard } from "src/modules/auth/guards/admin.guard";
 
 @ApiTags('ticket-order-checkin')
@@ -26,11 +26,5 @@ export class TicketOrderCheckinController {
     async getCheckinRecords(@Body() body: GetCheckinRecordsDto) {
         return this.ticketOrderCheckinService.getCheckinRecords(body.idOrder);
     }
-
-    // get checkin record by id
-    @ApiBearerAuth()
-    @Post('get-checkin-record-by-id/:id')
-    async getCheckinRecordById(@Param('id') id: string) {
-        return this.ticketOrderCheckinService.getCheckinRecordById(id);
-    }
+    
 }

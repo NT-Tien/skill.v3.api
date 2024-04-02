@@ -1,15 +1,15 @@
 import { Body, Controller, Delete, Get, Headers, HttpCode, HttpStatus, Inject, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { UserGuard } from "./guards/user.guard";
-import { RegisterDataDto } from "./interfaces/dto/register-data.dto";
-import { LoginLocalDataDto } from "./interfaces/dto/login-data";
+import { RegisterDataDto } from "./dto/register-data.dto";
+import { LoginLocalDataDto } from "./dto/login-data";
 import { AdminGuard } from "./guards/admin.guard";
-import { AdminUpdateAccountDataDto } from "./interfaces/dto/admin-update-data.dto";
-import { PhoneDto } from "./interfaces/dto/phone.dto";
-import { PasswordDto } from "./interfaces/dto/password-update-data.dto";
+import { AdminUpdateAccountDataDto } from "./dto/admin-update-data.dto";
+import { PhoneDto } from "./dto/phone.dto";
+import { PasswordDto } from "./dto/password-update-data.dto";
 import { FastifyRequest } from "fastify";
-import { UsernameDto } from "./interfaces/dto/username-update-data.dto";
-import { CreateAccountDto } from "./interfaces/dto/create-account.dto";
+import { UsernameDto } from "./dto/username-update-data.dto";
+import { CreateAccountDto } from "./dto/create-account.dto";
 import { AuthServiceInterface } from "./interfaces/auth.service.interface";
 
 @ApiTags('auth')

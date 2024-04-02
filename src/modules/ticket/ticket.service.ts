@@ -3,8 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { DataSource, Repository } from "typeorm";
 import { TicketEntity } from "./entities/ticket.entity";
 import { TicketServiceInterface } from "./interfaces/ticket.interface";
-import { CreateTicketDto } from "./interfaces/dto/ticket/create-ticket.dto";
-import { UpdateTicketDto } from "./interfaces/dto/ticket/update-ticket.dto";
+import { CreateTicketDto } from "./dto/ticket/create-ticket.dto";
+import { UpdateTicketDto } from "./dto/ticket/update-ticket.dto";
 
 @Injectable()
 export class TicketService implements TicketServiceInterface {

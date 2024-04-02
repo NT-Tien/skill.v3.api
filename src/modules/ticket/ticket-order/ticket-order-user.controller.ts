@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpException, Inject, Param, Post, Req, UseGuar
 import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
 import { InjectQueue } from "@nestjs/bull";
 import { Job, Queue } from 'bull';
-import { CreateTicketOrderDto } from "../interfaces/dto/ticket-order/create-ticket-order.dto";
+import { CreateTicketOrderDto } from "../dto/ticket-order/create-ticket-order.dto";
 import { TicketOrderService } from "./ticket-order.service";
 import { FastifyRequest } from "fastify";
 import { JwtService } from "@nestjs/jwt";

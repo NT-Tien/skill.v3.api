@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
 import { BaseDTO } from "src/common/base/dto.base";
-import { Role } from "../../entities/account.entity";
+import { Role } from "../entities/account.entity";
 
 
 export class CreateAccountDto extends BaseDTO {
