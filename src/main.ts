@@ -27,7 +27,7 @@ async function bootstrap() {
   // -----------------------------------------------
 
   app.register(require('@fastify/cors'), {
-    origin: ['http://localhost:3000', ],
+    origin: ['http://localhost:3000', 'https://skill-v3-admin.vercel.app' ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false,
