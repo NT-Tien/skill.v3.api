@@ -10,6 +10,8 @@ import {
 } from '@nestjs/platform-fastify';
 import * as multipart from '@fastify/multipart';
 import { writeFileSync } from 'fs';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 async function bootstrap() {
 
@@ -27,7 +29,11 @@ async function bootstrap() {
   // -----------------------------------------------
 
   app.register(require('@fastify/cors'), {
-    origin: ['http://localhost:3000', 'https://skill-v3-admin.vercel.app' ],
+    origin: [
+      process.env.CORS_ORIGIN_FE1,
+      process.env.CORS_ORIGIN_FE2,
+      process.env.CORS_ORIGIN_FE3,
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false,
