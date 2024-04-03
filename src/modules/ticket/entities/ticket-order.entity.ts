@@ -70,5 +70,12 @@ export class TicketOrderEntity extends BaseEntity {
     @OneToMany(() => TicketOrderItemEntity, ticketOrderItem => ticketOrderItem.ticketOrder)
     items: TicketOrderItemEntity[];
 
+    @Column({
+        name: "project",
+        type: "varchar",
+        length: 100,
+        nullable: true,
+    })
+    project: string;
 
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmpty, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateTicketOrderDto {
 
@@ -45,5 +45,9 @@ export class CreateTicketOrderDto {
     @IsNotEmpty()
     items: any;
 
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    project: string;
 
 }

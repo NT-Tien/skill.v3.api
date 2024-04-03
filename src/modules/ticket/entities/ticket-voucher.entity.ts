@@ -58,4 +58,12 @@ export class TicketVoucherEntity extends BaseEntity {
     })
     note: string;
 
+    @Column({
+        name: "project",
+        type: "varchar",
+        length: 100,
+        nullable: true,
+    })
+    project: string;
+
 }

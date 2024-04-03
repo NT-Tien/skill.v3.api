@@ -42,4 +42,7 @@ export class UpdateTicketVoucherDto extends BaseDTO {
     @ApiProperty()
     note: string
 
+    @ApiProperty()
+    project: string
+
 }

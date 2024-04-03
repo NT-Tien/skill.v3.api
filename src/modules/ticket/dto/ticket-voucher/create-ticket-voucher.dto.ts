@@ -45,4 +45,7 @@ export class CreateTicketVoucherDto {
     @ApiProperty()
     note: string
 
+    @ApiProperty()
+    project: string
+
 }

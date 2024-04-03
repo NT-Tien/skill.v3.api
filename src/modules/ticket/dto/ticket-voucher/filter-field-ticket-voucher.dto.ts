@@ -20,4 +20,7 @@ export class FilterFieldTicketVoucherDto extends BaseDTO {
     @Expose()
     note: string
 
+    @Expose()
+    project: string
+
 }

@@ -5,7 +5,6 @@ import { Job, Queue } from 'bull';
 import { CreateTicketOrderDto } from "../dto/ticket-order/create-ticket-order.dto";
 import { TicketOrderService } from "./ticket-order.service";
 import { FastifyRequest } from "fastify";
-import { JwtService } from "@nestjs/jwt";
 import { UserGuard } from "src/modules/auth/guards/user.guard";
 import { AuthService } from "src/modules/auth/auth.service";
 
