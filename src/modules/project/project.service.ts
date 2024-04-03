@@ -18,10 +18,10 @@ export class ProjectService implements ProjectServiceInterface {
         return this.projectRepository.save(data);
     }
     async updateProject(id: string, data: UpdateProjectDto): Promise<any> {
-        // check nameProject is exist
-        var project = await this.projectRepository.findOne({ where: { projectName: data.projectName } });
-        console.log(project);
-        if (project) throw new HttpException('Project name is exist', HttpStatus.BAD_REQUEST);
+        if (data?.projectName) {
+            var project = await this.projectRepository.findOne({ where: { projectName: data.projectName } });
+            if (project) throw new HttpException('Project name is exist', HttpStatus.BAD_REQUEST);
+        }
         return this.projectRepository.update(id, UpdateProjectDto.plainToClass(data));
     }
     deleteProject(id: string): Promise<any> {
@@ -37,6 +37,6 @@ export class ProjectService implements ProjectServiceInterface {
         return this.projectRepository.find({ where: { id: id } });
     }
     getProjects(): Promise<any> {
-        return this.projectRepository.find(); 
+        return this.projectRepository.find();
     }
 }
