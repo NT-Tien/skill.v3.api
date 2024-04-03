@@ -10,11 +10,6 @@ export class CreateTicketVoucherDto {
     voucherCode: string
 
     @ApiProperty()
-    @IsString()
-    @IsNotEmpty()
-    description: string
-
-    @ApiProperty()
     @IsNumber()
     @IsNotEmpty()
     discount: number
