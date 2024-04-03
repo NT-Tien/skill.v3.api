@@ -28,6 +28,9 @@ export class AuthService implements AuthServiceInterface {
         return bcrypt.hashSync(password, salt);
     }
     async register(data: RegisterDataDto): Promise<any> {
+        // check email is exist
+        var account = await this.repositoryAccount.findOne({ where: { email: data.email } });
+        if (account) throw new HttpException('Email is exist', HttpStatus.BAD_REQUEST);
         data.password = await this.hashPassword(data.password);
         return this.repositoryAccount.save(data);
     }

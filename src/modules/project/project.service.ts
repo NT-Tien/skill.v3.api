@@ -17,11 +17,12 @@ export class ProjectService implements ProjectServiceInterface {
         if (project) throw new HttpException('Project name is exist', HttpStatus.BAD_REQUEST);
         return this.projectRepository.save(data);
     }
-    updateProject(id: string, data: UpdateProjectDto): Promise<any> {
+    async updateProject(id: string, data: UpdateProjectDto): Promise<any> {
         // check nameProject is exist
-        var project = this.projectRepository.findOne({ where: { projectName: data.projectName } });
+        var project = await this.projectRepository.findOne({ where: { projectName: data.projectName } });
+        console.log(project);
         if (project) throw new HttpException('Project name is exist', HttpStatus.BAD_REQUEST);
-        return this.projectRepository.update(id, data);
+        return this.projectRepository.update(id, UpdateProjectDto.plainToClass(data));
     }
     deleteProject(id: string): Promise<any> {
         throw new Error("Method not implemented.");
