@@ -39,6 +39,11 @@ export class CreateTicketDto {
     endDate: Date
 
     @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    image: string
+
+    @ApiProperty()
     @IsUUID()
     @IsNotEmpty()
     project: string;

@@ -10,13 +10,11 @@ export class TicketUserController {
     ) { }
 
     @Get()
-    @ApiBearerAuth()
     async getAll() {
         return await this.ticketService.getTickets();
     }
 
     @Get('/:id')
-    @ApiBearerAuth()
     async getOne(@Param('id') id: string) {
         return await this.ticketService.getTicketById(id);
     }
