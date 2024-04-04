@@ -40,10 +40,9 @@ export class UpdateTicketDto extends BaseDTO {
     endDate: Date
 
     @ApiProperty()
-    @IsString()
     @ValidateIf((object, value) => value !== undefined)
     @Expose()
-    image: string
+    images: string[]
 
     updatedAt: Date
 

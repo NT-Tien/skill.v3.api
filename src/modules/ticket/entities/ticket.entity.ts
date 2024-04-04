@@ -50,13 +50,21 @@ export class TicketEntity extends BaseEntity {
     })
     endDate: Date;
 
+    // @Column({
+    //     name: "image",
+    //     type: "varchar",
+    //     length: 100,
+    //     nullable: true,
+    // })
+    // image: string;
+
     @Column({
-        name: "image",
-        type: "varchar",
-        length: 100,
+        type: 'varchar',
+        array: true,
         nullable: true,
+        name: 'images'
     })
-    image: string;
+    images: string[];
 
     // ! related to ticket-apply project
 

@@ -39,9 +39,8 @@ export class CreateTicketDto {
     endDate: Date
 
     @ApiProperty()
-    @IsString()
     @IsNotEmpty()
-    image: string
+    images: string[]
 
     @ApiProperty()
     @IsUUID()
