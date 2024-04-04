@@ -61,7 +61,7 @@ export class TicketEntity extends BaseEntity {
     @Column({
         type: 'varchar',
         array: true,
-        nullable: true,
+        nullable: false,
         name: 'images'
     })
     images: string[];
