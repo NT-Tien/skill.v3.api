@@ -8,12 +8,12 @@ export class UpdateTicketVoucherDto extends BaseDTO {
     @ApiProperty()
     @IsString()
     @ValidateIf((object, value) => value !== undefined)
-    ticketName: string
+    voucherCode: string
 
     @ApiProperty()
     @IsNumber()
     @ValidateIf((object, value) => value !== undefined)
-    price: number
+    discount: number;
 
     @ApiProperty()
     @IsNumber()
