@@ -118,6 +118,8 @@ export class TicketOrderService implements TicketOrderServiceInterface {
             .createQueryBuilder("TICKET_ORDER")
             .leftJoinAndSelect("TICKET_ORDER.items", "TICKET_ORDER_ITEM")
             .where("TICKET_ORDER.id = :id", { id })
+            .leftJoin("TICKET_ORDER_ITEM.ticket", "TICKET")
+            .addSelect(["TICKET.id"])
             .getOne();
         if (!order) throw new HttpException('Order not found', 404);
         return order;
