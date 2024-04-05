@@ -13,8 +13,10 @@ export class TicketOrderCheckinService implements TicketOrderCheckinServiceInter
     ) { }
     async addCheckinRecord(idOrder: string, idItem: string): Promise<any> {
         // check order is deleted
-        var order = await this.ticketOrderRepository.findOne(idOrder as any);
-        if (order.deletedAt !== null) {
+        var order = await this.ticketOrderRepository.findOne({where: {id: idOrder}});
+        console.log(order);
+        
+        if (order?.deletedAt !== null) {
             throw new HttpException("Order info not valid", 400);
         }
         return this.ticketOrderCheckinRepository.save({idOrder, idItem});

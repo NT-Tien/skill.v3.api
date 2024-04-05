@@ -7,8 +7,6 @@ import { TicketOrderService } from '../ticket-order.service';
 import * as dotenv from 'dotenv';
 import { TicketOrderEntity, TicketOrderStatus } from '../../entities/ticket-order.entity';
 import { sendMailForUserPaid } from './email.service';
-import { TicketEntity } from '../../entities/ticket.entity';
-import { TicketVoucherEntity } from '../../entities/ticket-voucher.entity';
 import { TicketVoucherService } from '../../ticket-voucher/ticket-voucher.service';
 import { TicketService } from '../../ticket.service';
 dotenv.config();
