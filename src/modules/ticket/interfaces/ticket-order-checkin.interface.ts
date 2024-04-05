@@ -8,5 +8,6 @@ export interface TicketOrderCheckinServiceInterface {
      * get checkin records
      */
     getCheckinRecords(idOrder: string): Promise<any>;
+    getAllCheckinRecords(): Promise<any>;
 
 }

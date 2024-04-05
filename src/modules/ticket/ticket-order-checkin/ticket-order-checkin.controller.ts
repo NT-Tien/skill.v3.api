@@ -26,5 +26,12 @@ export class TicketOrderCheckinController {
     async getCheckinRecords(@Body() body: GetCheckinRecordsDto) {
         return this.ticketOrderCheckinService.getCheckinRecords(body.idOrder);
     }
+
+    // get all checkin records
+    @ApiBearerAuth()
+    @Post('get-all-checkin-records')
+    async getAllCheckinRecords() {
+        return this.ticketOrderCheckinService.getAllCheckinRecords();
+    }
     
 }

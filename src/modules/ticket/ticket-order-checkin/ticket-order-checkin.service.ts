@@ -12,6 +12,9 @@ export class TicketOrderCheckinService implements TicketOrderCheckinServiceInter
         @InjectRepository(TicketOrderCheckinEntity) private ticketOrderCheckinRepository: Repository<TicketOrderCheckinEntity>,
         @InjectRepository(TicketOrderEntity) private ticketOrderRepository: Repository<TicketOrderEntity>,
     ) { }
+    getAllCheckinRecords(): Promise<any> {
+        return this.ticketOrderCheckinRepository.find();
+    }
     async addCheckinRecord(idOrder: string, idItem: string): Promise<any> {
         // check order is deleted
         var order = await this.ticketOrderRepository
@@ -39,4 +42,5 @@ export class TicketOrderCheckinService implements TicketOrderCheckinServiceInter
     getCheckinRecords(idOrder: string): Promise<any> {
         return this.ticketOrderCheckinRepository.find({ where: { idOrder } });
     }
+    
 }
