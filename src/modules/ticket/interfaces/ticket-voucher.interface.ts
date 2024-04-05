@@ -10,6 +10,8 @@ export interface TicketVoucherServiceInterface {
     unDeleteTicketVoucher(id: string): Promise<any>;
     getTicketVoucherById(id: string): Promise<any>;
     getTicketVouchers(): Promise<any>;
+    increaseTicketQuantity(id: string, quantity: number): Promise<any>;
+    decreaseTicketQuantity(id: string, quantity: number): Promise<any>;
     // ! handle ticket voucher with ticket
     /** 
      * @description get available vouchers for ticket by ticketId and email - with ticketId stay in applyTicketId and email stay in applyEmail of voucher or length of applyTicketId and applyEmail is 0

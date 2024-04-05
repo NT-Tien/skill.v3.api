@@ -43,4 +43,5 @@ export class UpdateTicketVoucherDto extends BaseDTO {
     @ValidateIf((object, value) => value !== undefined)
     project: string
 
+    updatedAt?: Date
 }

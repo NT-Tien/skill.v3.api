@@ -32,8 +32,12 @@ export class TicketOrderService implements TicketOrderServiceInterface {
         await queryRunner.connect();
         await queryRunner.startTransaction("SERIALIZABLE");
         try {
-            // order limit 10 tickets
-            if (data.items.length > 10) throw new HttpException('Order limit 10 tickets', 400);
+            // order limit 5 tickets
+            var totalQuantity = 0;
+            for (const item of data.items) {
+                totalQuantity += item.quantity;
+            }
+            if (totalQuantity > 5) throw new HttpException('Order limit 5 tickets', 400);
             // check order data is available or not before create
             // 1. check ticket voucher is available if user added voucher
             var ticketVoucher: TicketVoucherEntity;
@@ -74,7 +78,7 @@ export class TicketOrderService implements TicketOrderServiceInterface {
                 data.ticketVoucher = FilterFieldTicketVoucherDto.plainToClass(ticketVoucher);
             } else if (total != data.total)
                 throw new HttpException('Total price is not correct', 400);
-            // -------------------------------
+            // add order items
             var order = await queryRunner.manager.save(TicketOrderEntity, data);
             for (const item of data.items) {
                 queryRunner.manager.save(TicketOrderItemEntity, {
@@ -85,6 +89,16 @@ export class TicketOrderService implements TicketOrderServiceInterface {
                     price: item.price,
                 });
             }
+            // decrease ticket quantity
+            for (const item of data.items) {
+                await queryRunner.manager.decrement(TicketEntity, { id: item.ticketId }, 'quantity', item.quantity);
+            }
+            // decrease ticket voucher quantity
+            if (ticketVoucher) {
+                await queryRunner.manager.decrement(TicketVoucherEntity, { id: ticketVoucher.id }, 'quantity', 1);
+            }
+            // -------------------------------
+
             // create link to payment
             var payload = {
                 orderId: order.id,

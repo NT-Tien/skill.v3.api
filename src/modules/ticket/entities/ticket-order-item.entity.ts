@@ -13,7 +13,7 @@ export class TicketOrderItemEntity extends BaseEntity {
     ticketOrder: string;
 
     @ManyToOne(() => TicketEntity, ticket => ticket.id)
-    ticket: string;
+    ticket: TicketEntity;
 
     @Column({
         name: "name",

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TicketOrderWaiterEntity } from '../../entities/ticket-order-waiter.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +7,10 @@ import { TicketOrderService } from '../ticket-order.service';
 import * as dotenv from 'dotenv';
 import { TicketOrderEntity, TicketOrderStatus } from '../../entities/ticket-order.entity';
 import { sendMailForUserPaid } from './email.service';
+import { TicketEntity } from '../../entities/ticket.entity';
+import { TicketVoucherEntity } from '../../entities/ticket-voucher.entity';
+import { TicketVoucherService } from '../../ticket-voucher/ticket-voucher.service';
+import { TicketService } from '../../ticket.service';
 dotenv.config();
 
 @Injectable()
@@ -14,6 +18,8 @@ export class WaiterService {
     constructor(
         @InjectRepository(TicketOrderWaiterEntity) private waiterRepository: Repository<TicketOrderWaiterEntity>,
         @Inject('TICKET_ORDER_SERVICE_TIENNT') private ticketOrderService: TicketOrderService,
+        @Inject('TICKET_VOUCHER_SERVICE_TIENNT') private ticketVoucherService: TicketVoucherService,
+        @Inject('TICKET_SERVICE_TIENNT') private ticketService: TicketService,
     ) { }
 
     async checkIdOrder(idOrder: string): Promise<any> {
@@ -34,7 +40,7 @@ export class WaiterService {
             });
     }
 
-    @Interval(5 * 60 * 1000) // Every 60 seconds
+    @Interval(1 * 60 * 1000) // Every 60 seconds
     async checkPayment() {
         var waiters = await this.waiterRepository.find();
         console.log(`Checking payment ${Date.now()}`, waiters);
@@ -76,7 +82,14 @@ export class WaiterService {
             })
         } else if (result.data.status === 'EXPIRED') {
             // increase products quantity back to stock
-            // ... 
+            order.items.forEach(async item => {
+                await this.ticketService.increaseTicketQuantity(item.ticket.id, item.quantity);
+            });
+            // recover voucher quantity if user used voucher
+            if (order.ticketVoucher) {
+                await this.ticketVoucherService.increaseTicketQuantity(order.ticketVoucher.id, 1);
+            }
+            // update order status
             await this.ticketOrderService.updateTicketOrder(waiter.orderId, {
                 payment: null,
                 status: TicketOrderStatus.EXPIRED
@@ -84,7 +97,14 @@ export class WaiterService {
             await this.waiterRepository.delete(waiter.id);
         } else if (result.data.status === 'CANCELED') {
             // increase products quantity back to stock
-            // ... 
+            order.items.forEach(async item => {
+                await this.ticketService.increaseTicketQuantity(item.ticket.id, item.quantity);
+            });
+            // recover voucher quantity if user used voucher
+            if (order.ticketVoucher) {
+                await this.ticketVoucherService.increaseTicketQuantity(order.ticketVoucher.id, 1);
+            }
+            // delete waiter
             await this.waiterRepository.delete(waiter.id);
             await this.ticketOrderService.updateTicketOrder(waiter.orderId, {
                 payment: null,
