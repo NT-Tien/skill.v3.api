@@ -53,7 +53,7 @@ export class WaiterService {
                     console.log(error);
                     console.log('Error handle water: ', waiter.id);
                 }
-            }, 1000 * i)
+            }, 2000 * i)
         }
     }
 
