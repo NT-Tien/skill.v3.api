@@ -81,7 +81,7 @@ export class TicketOrderService implements TicketOrderServiceInterface {
             // add order items
             var order = await queryRunner.manager.save(TicketOrderEntity, data);
             for (const item of data.items) {
-                queryRunner.manager.save(TicketOrderItemEntity, {
+                await queryRunner.manager.save(TicketOrderItemEntity, {
                     ticketOrder: order.id,
                     ticket: item.ticketId,
                     name: item.name,

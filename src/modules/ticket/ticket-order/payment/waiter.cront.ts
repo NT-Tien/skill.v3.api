@@ -59,8 +59,6 @@ export class WaiterService {
 
     private async handleWaiter(waiter: any, result: any) {
         var order = await this.ticketOrderService.getTicketOrderById(waiter.orderId) as TicketOrderEntity;
-        console.log('order', order);
-        console.log('result', result);
         if (result.data.status === 'PAID') {
             // update order status
             await this.ticketOrderService.updateTicketOrder(waiter.orderId, {
