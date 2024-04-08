@@ -20,8 +20,8 @@ type payloadType = {
 @Injectable()
 export class PayOSService {
 
-    returnURL = 'https://e-furniture-swd.vercel.app';
-    cancelURL = 'https://e-furniture-swd.vercel.app';
+    returnURL = 'http://localhost:3000/order/history';
+    cancelURL = 'http://localhost:3000/order/history';
 
     constructor(
         @InjectRepository(TicketOrderWaiterEntity) private waiterRepository: Repository<TicketOrderWaiterEntity>
