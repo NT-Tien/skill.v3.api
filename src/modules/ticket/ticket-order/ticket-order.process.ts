@@ -12,8 +12,12 @@ export class TicketOrderProcessor {
 
     @Process()
     async processJob(job: Job<any>) {
-        const { data } = job;
-        return await this.ticketOrderService.createTicketOrder(data.data);
+        try {
+            const { data } = job;
+            return await this.ticketOrderService.createTicketOrder(data.data);
+        } catch (error) {
+            return error;
+        }
 
     }
 }
