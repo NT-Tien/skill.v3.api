@@ -57,6 +57,7 @@ export class TicketOrderService implements TicketOrderServiceInterface {
             // 2. check total price is correct
             var total = 0;
             for (const ticket of data.items) {
+                if(!isUUID(ticket.ticketId)) throw new HttpException('Ticket is not correct', 400);
                 var ticketEntity = await queryRunner.manager.findOne(TicketEntity, { where: { id: ticket.ticketId } });
                 total += ticket.quantity * ticketEntity.price;
                 if (!ticketEntity) throw new HttpException('Ticket not found', 404);
