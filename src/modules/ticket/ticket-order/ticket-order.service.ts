@@ -32,6 +32,8 @@ export class TicketOrderService implements TicketOrderServiceInterface {
         await queryRunner.connect();
         await queryRunner.startTransaction("SERIALIZABLE");
         try {
+            // check order have ticket or not
+            if (data.items.length == 0) throw new HttpException('Order have no ticket', 400);
             // order limit 5 tickets
             var totalQuantity = 0;
             for (const item of data.items) {

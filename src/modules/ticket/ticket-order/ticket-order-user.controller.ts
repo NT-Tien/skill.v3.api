@@ -19,6 +19,8 @@ export class TicketOrderUserController {
 
     @Post('create-link')
     async createLinkPayment(@Body() order: CreateTicketOrderDto) {
+        // check order have ticket or not
+        if (order.items.length == 0) throw new HttpException('Order have no ticket', 400);
         return await this.orderQueue.add({ data: order } as Job<any>, { delay: 3000 });
         // return await this.ticketOrderService.createTicketOrder(order);
     }
