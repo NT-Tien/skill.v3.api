@@ -16,7 +16,7 @@ export class TicketOrderProcessor {
             const { data } = job;
             return await this.ticketOrderService.createTicketOrder(data.data);
         } catch (error) {
-            return error;
+            return error.toString();
         }
 
     }

@@ -38,7 +38,7 @@ export class WaiterService {
             });
     }
 
-    @Interval(2 * 60 * 1000) // Every 60 seconds
+    @Interval(1 * 60 * 1000) // Every 60 seconds
     async checkPayment() {
         var waiters = await this.waiterRepository.find();
         console.log(`Checking payment ${Date.now()}`, waiters);
