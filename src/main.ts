@@ -11,6 +11,7 @@ import {
 import * as multipart from '@fastify/multipart';
 import { writeFileSync } from 'fs';
 import * as dotenv from 'dotenv';
+import helmet from '@fastify/helmet'
 dotenv.config();
 
 async function bootstrap() {
@@ -26,6 +27,15 @@ async function bootstrap() {
   // set up middlewares ----------------------------
   app.use(morgan('dev'));
   app.use(compression())
+  // somewhere in your initialization file
+  // await app.register(helmet,{
+  //   contentSecurityPolicy: {
+  //     directives: {
+  //       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+  //       'img-src': ["'self'", '*'], // Allow images to be loaded from any origin
+  //     },
+  //   },
+  // })
   // -----------------------------------------------
 
   app.register(require('@fastify/cors'), {

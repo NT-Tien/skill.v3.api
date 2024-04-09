@@ -14,7 +14,7 @@ import { TicketModule } from './modules/ticket/ticket.module';
 import { BullModule } from '@nestjs/bull';
 import { QUEUE_CONFIG } from './config/queue.config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -36,10 +36,6 @@ import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
     },
   ]
 })

@@ -1,9 +1,10 @@
-import { Controller, Get, Inject } from "@nestjs/common";
+import { Controller, Get, Inject, UseInterceptors } from "@nestjs/common";
 import { ProjectService } from "./project.service";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { CacheKey, CacheTTL } from "@nestjs/cache-manager";
+import { ApiTags } from "@nestjs/swagger";
+import { CacheInterceptor, CacheKey, CacheTTL } from "@nestjs/cache-manager";
 
 @ApiTags('project-user')
+@UseInterceptors(CacheInterceptor)
 @Controller('project-user')
 export class ProjectController {
     constructor(

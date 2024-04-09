@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@blazity/nest-file-fastify": "^1.0.0",
+    "@fastify/helmet": "^11.1.1",
     "@fastify/multipart": "^8.1.0",
     "@fastify/static": "^7.0.1",
     "@nestjs/bull": "^10.1.0",
