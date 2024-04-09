@@ -52,7 +52,9 @@ export class AuthService implements AuthServiceInterface {
                         password: await this.hashPassword(randomUUID()),
                         role: Role.user
                     }
-                    return this.repositoryAccount.save(data);
+                    await this.repositoryAccount.save(data);
+                    var newAccount = await this.repositoryAccount.findOne({ where: { email: decodedToken.email } });
+                    return this.generateToken({ id: newAccount.id, username: newAccount.username, email: newAccount.email, role: newAccount.role });
                 }
                 else if (account.deletedAt != null) throw new HttpException("Account info is not valid", HttpStatus.BAD_REQUEST);
                 return this.generateToken({ id: account.id, username: account.username, email: account.email, role: account.role });
