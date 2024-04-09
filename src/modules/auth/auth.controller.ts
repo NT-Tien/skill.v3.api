@@ -20,11 +20,11 @@ export class AuthController {
         @Inject('AUTH_SERVICE_TIENNT') private readonly authService: AuthServiceInterface,
     ) { }
 
-    @Post('register')
-    @HttpCode(HttpStatus.CREATED)
-    async register(@Body() data: RegisterDataDto) {
-        return await this.authService.register(RegisterDataDto.plainToClass(data));
-    }
+    // @Post('register')
+    // @HttpCode(HttpStatus.CREATED)
+    // async register(@Body() data: RegisterDataDto) {
+    //     return await this.authService.register(RegisterDataDto.plainToClass(data));
+    // }
 
     @Post('login')
     @HttpCode(HttpStatus.OK)
