@@ -57,10 +57,12 @@ export class PayOSService {
         })
             .then(response => response.json())
             .then(data => {
-                this.waiterRepository.save({
-                    paymentId: data?.data?.paymentLinkId,
-                    orderId: payload?.orderId
-                });
+                if (data.code === "00") {
+                    this.waiterRepository.save({
+                        paymentId: data?.data?.paymentLinkId,
+                        orderId: payload?.orderId
+                    });
+                }
                 return data;
             })
             .catch((error) => {
