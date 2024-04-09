@@ -20,8 +20,8 @@ type payloadType = {
 @Injectable()
 export class PayOSService {
 
-    returnURL = 'http://localhost:3000/order/history';
-    cancelURL = 'http://localhost:3000/order/history';
+    returnURL = process.env.PAYOS_RETURN_URL;
+    cancelURL = process.env.PAYOS_CANCEL_URL;
 
     constructor(
         @InjectRepository(TicketOrderWaiterEntity) private waiterRepository: Repository<TicketOrderWaiterEntity>
