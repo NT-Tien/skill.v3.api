@@ -14,6 +14,7 @@ import { TicketModule } from './modules/ticket/ticket.module';
 import { BullModule } from '@nestjs/bull';
 import { QUEUE_CONFIG } from './config/queue.config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -21,6 +22,9 @@ import { ScheduleModule } from '@nestjs/schedule';
     MongooseModule.forRoot(MONGO_HOST, MONGO_CONFIG),
     BullModule.forRoot(QUEUE_CONFIG),
     ScheduleModule.forRoot(),
+    CacheModule.register({
+      isGlobal: true,
+    }),
     LogsModule,
     MyMiddlewareModule,
     AuthModule,
@@ -32,7 +36,11 @@ import { ScheduleModule } from '@nestjs/schedule';
     {
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor
-    }
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
   ]
 })
 export class AppModule { } 
