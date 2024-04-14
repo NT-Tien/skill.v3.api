@@ -34,12 +34,12 @@ export class TicketOrderService implements TicketOrderServiceInterface {
         try {
             // check order have ticket or not
             if (data.items.length == 0) throw new HttpException('Order have no ticket', 400);
-            // order limit 5 tickets
+            // order limit 3 tickets
             var totalQuantity = 0;
             for (const item of data.items) {
                 totalQuantity += item.quantity;
             }
-            if (totalQuantity > 5) throw new HttpException('Order limit 5 tickets', 400);
+            if (totalQuantity > 3) throw new HttpException('Order limit 5 tickets', 400);
             // check order data is available or not before create
             // 1. check ticket voucher is available if user added voucher
             var ticketVoucher: TicketVoucherEntity;
