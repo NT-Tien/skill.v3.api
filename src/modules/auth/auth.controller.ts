@@ -28,8 +28,8 @@ export class AuthController {
 
     @Post('login')
     @HttpCode(HttpStatus.OK)
-    async login(@Body() data: LoginLocalDataDto) {
-        return await this.authService.login(data.email, data.password);
+    login(@Body() data: LoginLocalDataDto) {
+        return this.authService.login(data.email, data.password);
     }
 
     @Post('login-firebase')

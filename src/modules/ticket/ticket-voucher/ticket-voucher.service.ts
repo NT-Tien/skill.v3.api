@@ -58,14 +58,14 @@ export class TicketVoucherService implements TicketVoucherServiceInterface {
         return this.ticketVoucherRepository.save(data);
     }
     async updateTicketVoucher(id: string, data: UpdateTicketVoucherDto): Promise<any> {
-        // return this.ticketVoucherRepository.update(id, data);
-        // use transactin
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction("SERIALIZABLE");
         try {
             var validData = UpdateTicketVoucherDto.plainToClass(data);
             validData.updatedAt = new Date();
+            console.log(validData);
+            
             var result = await queryRunner.manager.update(TicketVoucherEntity, id, validData);
             await queryRunner.commitTransaction();
             return result;
