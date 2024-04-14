@@ -18,7 +18,12 @@ export class TicketOrderUserController {
     ) { }
 
     @Post('create-link')
-    async createLinkPayment(@Body() order: CreateTicketOrderDto) {
+    async createLinkPayment(@Req() req: FastifyRequest['raw'], @Body() order: CreateTicketOrderDto) {
+        // check user have any pending order
+        var token = req.headers.authorization?.split(' ')[1];
+        var payload = await this.authService.decodeToken(token);
+        var orders = await this.ticketOrderService.getTicketOrderByEmail(payload.email);
+        if (orders.some(item => item.status == 'PENDING')) throw new HttpException('User have pending order', 400);
         // check order have ticket or not
         if (order.items.length == 0) throw new HttpException('Order have no ticket', 400);
         return await this.orderQueue.add({ data: order } as Job<any>, { delay: 3000 });
